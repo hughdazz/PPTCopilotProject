@@ -1,3 +1,4 @@
+<!-- Search.vue -->
 <template>
   <div class="search-container">
     <el-input
@@ -6,24 +7,25 @@
       clearable
       style="width: 30%; margin: 40px auto 0;"
     >
-      <el-button slot="append" icon="el-icon-search" @click="searchProjectsHandler" />
+      <el-button slot="append" icon="el-icon-search" @click="searchProjectsHandler"/>
     </el-input>
-    <el-card v-for="(project, index) in projects" :key="index" class="project-card">
-      <div class="project-name">{{ project.name }}</div>
-      <div class="project-description">{{ project.description }}</div>
-    </el-card>
+    <ProjectTable :projects="projects"/>
   </div>
 </template>
 
 <script>
-import { searchProjects } from '@/api/search'
+import {searchProjects} from '@/api/search'
+import ProjectTable from './components/ProjectTable.vue'
 
 export default {
   name: 'Search',
+  components: {
+    ProjectTable,
+  },
   data() {
     return {
       filterWords: '',
-      projects: []
+      projects: [],
     }
   },
   methods: {
@@ -33,38 +35,24 @@ export default {
         return
       }
       try {
-        const response = searchProjects(this.filterWords)
-        this.projects = response.projects
+        searchProjects(this.filterWords).then((res) => {
+          console.log(res)
+          this.projects = res.data
+        }).catch((err) => {
+          console.log(err)
+        })
       } catch (error) {
         this.$message.error('搜索失败，请稍后再试')
       }
-    }
-  }
+    },
+  },
 }
 </script>
 
 <style>
 .search-container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-}
-
-.project-card {
-  width: 400px;
-  margin: 20px;
-  padding: 20px;
-  border: 1px solid #ccc;
-}
-
-.project-name {
-  font-size: 20px;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.project-description {
-  font-size: 16px;
 }
 </style>
