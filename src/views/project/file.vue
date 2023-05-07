@@ -89,7 +89,7 @@
 </template>
 
 <script>
-import { fetchList } from '@/api/article'
+import { fetchList } from '@/api/project'
 import Sortable from 'sortablejs'
 
 export default {
