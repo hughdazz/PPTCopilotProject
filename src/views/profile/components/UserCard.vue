@@ -19,31 +19,31 @@
 
     <div class="user-bio">
       <div class="user-education user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>Education</span></div>
+        <div class="user-bio-section-header"><svg-icon icon-class="个人签名" /><span>个人签名</span></div>
         <div class="user-bio-section-body">
           <div class="text-muted">
-            JS in Computer Science from the University of Technology
+           我喜欢PPT创作，也喜欢AI
           </div>
         </div>
       </div>
 
       <div class="user-skills user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="skill" /><span>Skills</span></div>
+        <div class="user-bio-section-header"><svg-icon icon-class="自我评价" /><span>自我评价</span></div>
         <div class="user-bio-section-body">
           <div class="progress-item">
-            <span>Vue</span>
+            <span>项目经验</span>
             <el-progress :percentage="70" />
           </div>
           <div class="progress-item">
-            <span>JavaScript</span>
-            <el-progress :percentage="18" />
+            <span>项目美观度</span>
+            <el-progress :percentage="78" />
           </div>
           <div class="progress-item">
-            <span>Css</span>
-            <el-progress :percentage="12" />
+            <span>项目整体性</span>
+            <el-progress :percentage="62" />
           </div>
           <div class="progress-item">
-            <span>ESLint</span>
+            <span>项目动画流畅度</span>
             <el-progress :percentage="100" status="success" />
           </div>
         </div>
