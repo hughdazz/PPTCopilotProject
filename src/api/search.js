@@ -8,3 +8,13 @@ export function searchProjects(filterWords) {
     }
   })
 }
+
+// export function searchProjects(filterWords) {
+//   return request({
+//     url: '/project',
+//     method: 'get',
+//     // params: {
+//     //   filter_words: filterWords
+//     // }
+//   })
+// }
