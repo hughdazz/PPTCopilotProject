@@ -56,6 +56,18 @@ export const constantRoutes = [
   },
 
   {
+    path: '/',
+    component: Layout,
+    redirect: '/search',
+    children: [{
+      path: 'search',
+      name: 'Search',
+      component: () => import('@/views/search/index'),
+      meta: { title: 'Search', icon: 'search' }
+    }]
+  },
+
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
@@ -89,7 +101,28 @@ export const constantRoutes = [
       }
     ]
   },
-
+  {
+    path: '/project',
+    meta: {
+      title: '项目管理',
+      icon: 'component'
+    },
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/project/index'),
+        name: 'Project',
+        meta: { title: '我的项目' }
+      },
+      {
+        path: 'file',
+        component: () => import('@/views/project/file'),
+        name: 'File',
+        meta: { title: '我的文件' }
+      }
+    ]
+  },
   {
     path: '/nested',
     component: Layout,
