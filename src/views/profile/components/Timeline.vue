@@ -18,23 +18,23 @@ export default {
       timeline: [
         {
           timestamp: '2019/4/20',
-          title: 'Update Github template',
-          content: 'PanJiaChen committed 2019/4/20 20:46'
+          title: '新建项目1',
+          content: '初始化项目 2019/4/20 20:46'
         },
         {
           timestamp: '2019/4/21',
-          title: 'Update Github template',
-          content: 'PanJiaChen committed 2019/4/21 20:46'
+          title: '修改项目1',
+          content: '在项目1中增加了3页 2019/4/21 20:46'
         },
         {
           timestamp: '2019/4/22',
-          title: 'Build Template',
-          content: 'PanJiaChen committed 2019/4/22 20:46'
+          title: '新建项目2',
+          content: '初始化项目 2019/4/22 20:46'
         },
         {
           timestamp: '2019/4/23',
-          title: 'Release New Version',
-          content: 'PanJiaChen committed 2019/4/23 20:46'
+          title: '删除项目2',
+          content: '删除项目 2019/4/23 20:46'
         }
       ]
     }

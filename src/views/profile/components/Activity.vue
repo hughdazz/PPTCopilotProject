@@ -7,11 +7,7 @@
         <span class="description">Shared publicly - 7:30 PM today</span>
       </div>
       <p>
-        Lorem ipsum represents a long-held tradition for designers,
-        typographers and the like. Some people hate it and argue for
-        its demise, but others ignore the hate as they create awesome
-        tools to help create filler text for everyone from bacon lovers
-        to Charlie Sheen fans.
+        大家好，今天我要跟大家分享我对这个ppt的一些心得体会。首先，我认为这个ppt非常清晰明了，它通过简洁的文字和图片生动地呈现了主题内容，让人一目了然。其次，我觉得作者在整理内容时非常用心，将主题分成了几个部分，每个部分都讲解得非常详尽，让听众能够深入了解主题。此外，我还注意到这个ppt采用了非常漂亮的配色方案，使得整个ppt看起来非常美观，让人感到非常舒适。总的来说，我认为这个ppt是一个非常成功的例子，作者的辛勤努力和用心付出使得它非常优秀，让人们受益匪浅。
       </p>
       <ul class="list-inline">
         <li>
@@ -35,11 +31,7 @@
         <span class="description">Sent you a message - yesterday</span>
       </div>
       <p>
-        Lorem ipsum represents a long-held tradition for designers,
-        typographers and the like. Some people hate it and argue for
-        its demise, but others ignore the hate as they create awesome
-        tools to help create filler text for everyone from bacon lovers
-        to Charlie Sheen fans.
+        我很欣赏这份PPT所采用的设计风格和排版方式。每一页都被巧妙地设计成了一个整体，让人感觉非常美观大方，同时也非常容易阅读和理解。此外，PPT中还采用了一些简单易懂的动画和图形效果，让整个呈现过程更加生动有趣。
       </p>
       <ul class="list-inline">
         <li>
@@ -88,10 +80,10 @@ export default {
   data() {
     return {
       carouselImages: [
-        'https://wpimg.wallstcn.com/9679ffb0-9e0b-4451-9916-e21992218054.jpg',
-        'https://wpimg.wallstcn.com/bcce3734-0837-4b9f-9261-351ef384f75a.jpg',
-        'https://wpimg.wallstcn.com/d1d7b033-d75e-4cd6-ae39-fcd5f1c0a7c5.jpg',
-        'https://wpimg.wallstcn.com/50530061-851b-4ca5-9dc5-2fead928a939.jpg'
+        'https://fc1tn.baidu.com/it/u=2554800398,4089275240&fm=202&mola=new&crop=v1',
+        'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F9505809d-7daa-4913-bd5f-58d6e8fa746d%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1686049367&t=d5c1f96a95471f68115accf3e4ee030f',
+        'https://img2.baidu.com/it/u=1237386574,2964608939&fm=253&fmt=auto&app=138&f=JPEG?w=667&h=500',
+        'https://img1.baidu.com/it/u=12865346,113216081&fm=253&fmt=auto&app=138&f=GIF?w=976&h=500'
       ],
       avatarPrefix,
       carouselPrefix
