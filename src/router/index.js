@@ -63,7 +63,7 @@ export const constantRoutes = [
       path: 'search',
       name: 'Search',
       component: () => import('@/views/search/index'),
-      meta: { title: 'Search', icon: 'search' }
+      meta: { title: '搜索', icon: 'search' }
     }]
   },
 
@@ -72,6 +72,7 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/example/table',
     name: 'Example',
+    hidden: true,
     meta: { title: 'Example', icon: 'el-icon-s-help' },
     children: [
       {
@@ -92,6 +93,7 @@ export const constantRoutes = [
   {
     path: '/form',
     component: Layout,
+    hidden: true,
     children: [
       {
         path: 'index',
@@ -128,6 +130,7 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/nested/menu1',
     name: 'Nested',
+    hidden: true,
     meta: {
       title: 'Nested',
       icon: 'nested'
@@ -185,6 +188,7 @@ export const constantRoutes = [
   {
     path: 'external-link',
     component: Layout,
+    hidden: true,
     children: [
       {
         path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
@@ -201,7 +205,7 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/direction/index'),
         name: 'Direction',
-        meta: { title: 'Direction', icon: 'guide', noCache: true }
+        meta: { title: '引导流程', icon: 'guide', noCache: true }
       }
     ]
   },
