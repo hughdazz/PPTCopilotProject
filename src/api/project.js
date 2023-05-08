@@ -10,14 +10,14 @@ export function submitForm() {
 
 export function addProject(query) {
   return request({
-    url: '/vue-element-admin/add/project',
+    url: '/add/project',
     method: 'get',
     params: query
   })
 }
 export function fetchList(query) {
   return request({
-    url: '/vue-element-admin/article/list',
+    url: '/project',
     method: 'get',
     params: query
   })

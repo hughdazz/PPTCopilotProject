@@ -32,42 +32,42 @@ export default {
       features: [
         {
           title: '引导流程',
-          image: 'https://via.placeholder.com/300x200',
+          image: 'https://user-images.githubusercontent.com/91320586/236810826-47598f00-1076-4450-a174-47888c5d787f.jpg',
           description: '清晰引导流程，帮助您轻松制作PPT。',
         },
         {
           title: '大纲生成',
-          image: 'https://via.placeholder.com/300x200',
+          image: 'https://user-images.githubusercontent.com/91320586/236811011-f676f462-1827-43f6-b4a0-29ee8ab03166.jpg',
           description: '借助GPT AI轻松创建演示文稿大纲。',
         },
         {
           title: 'GPT集成',
-          image: 'https://via.placeholder.com/300x200',
+          image: ' https://user-images.githubusercontent.com/91320586/236810233-b7bb7a4a-c150-4e5e-ae83-f455c0fb264f.png',
           description: '与GPT AI无缝交互，进行内容创建和优化。',
         },
         {
           title: '模板系统',
-          image: 'https://via.placeholder.com/300x200',
+          image: 'https://user-images.githubusercontent.com/91320586/236810917-e54458e8-bd86-48c5-83b1-75976f450845.jpg',
           description: '从各种精美模板中选择，满足您的需求。',
         },
         {
           title: '单页生成',
-          image: 'https://via.placeholder.com/300x200',
+          image: 'https://user-images.githubusercontent.com/91320586/236811073-8b263eab-79ac-4304-90f6-e47557a54599.jpg',
           description: '使用自定义提示修改任何幻灯片，实现精确的内容控制。',
         },
         {
           title: '项目管理',
-          image: 'https://via.placeholder.com/300x200',
+          image: 'https://user-images.githubusercontent.com/91320586/236810666-9e375809-a579-4288-b08c-0b3e6af258f2.jpg',
           description: '轻松组织和管理您的演示文稿。',
         },
         {
           title: 'PPT共享与搜索',
-          image: 'https://via.placeholder.com/300x200',
+          image: 'https://user-images.githubusercontent.com/91320586/236810750-0b8b3ec8-8ccd-410a-a3ad-d7c3dbdd45c3.jpg',
           description: '分享您的创作，从社区发现新的演示文稿。',
         },
         {
           title: 'PPT探索',
-          image: 'https://via.placeholder.com/300x200',
+          image: 'https://user-images.githubusercontent.com/91320586/236810476-977f4291-d762-4304-bc8d-3628b61bc37f.jpg',
           description: '通过访问创新演示文稿的世界拓展视野。',
         },
       ],
@@ -152,7 +152,7 @@ export default {
     .feature-image {
       width: 100%;
       max-width: 300px;
-      height: auto;
+      height: 200px;
       margin-bottom: 20px;
     }
 
