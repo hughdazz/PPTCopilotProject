@@ -1,15 +1,17 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ name }}</div>
-    <p>{{ str }}</p>
+    <DashPlate />
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import { test } from '@/api/test';
+import DashPlate from "./components/DashPlate.vue";
 export default {
   name: 'Dashboard',
+  components: {
+    DashPlate
+  },
   computed: {
     ...mapGetters([
       'name'
