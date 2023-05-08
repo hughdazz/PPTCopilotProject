@@ -192,7 +192,19 @@ export const constantRoutes = [
       }
     ]
   },
-
+  {
+    path: '/direction',
+    component: Layout,
+    redirect: '/direction/index',
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/direction/index'),
+        name: 'Direction',
+        meta: { title: 'Direction', icon: 'guide', noCache: true }
+      }
+    ]
+  },
   {
     path: '/profile',
     component: Layout,
