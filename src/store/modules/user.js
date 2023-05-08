@@ -6,7 +6,9 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+    id: '',
+    email: '',
   }
 }
 
@@ -24,7 +26,14 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_ID: (state, id) => {
+    state.id = id
+  },
+  SET_EMAIL: (state, email) => {
+    state.email = email
   }
+
 }
 
 const actions = {
@@ -33,11 +42,14 @@ const actions = {
     const { username_or_email, password } = loginForm
     return new Promise((resolve, reject) => {
       login({ username_or_email: username_or_email, password: password }).then(response => {
-        const { token } = response
-        console.log(token)
+        const { token,data } = response
+        console.log(data)
         commit('SET_TOKEN', token)
+        commit('SET_NAME', data.Username)
+        commit('SET_ID', data.Id)
+        commit('SET_EMAIL', data.Email)
         setToken(token)
-        resolve()
+        resolve(data)
       }).catch(error => {
         reject(error)
       })

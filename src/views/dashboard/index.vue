@@ -16,9 +16,7 @@ export default {
     ])
   },
   created() {
-    test().then(res => {
-      this.str = res.data
-    })
+
   }
 }
 </script>
