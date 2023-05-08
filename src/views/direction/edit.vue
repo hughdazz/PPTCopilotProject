@@ -4,7 +4,7 @@
     class="outline-card">
     <div class="custom-tree-container">
       <div class="block" style="">
-        <p style="text-align: center">PPT title</p>
+        <p style="text-align: center">PPT Title</p>
         <el-tree
           :data="data"
           node-key="id"
@@ -20,10 +20,8 @@
                   <template v-if="data.edit">
                     <el-input v-model="data.label" class="edit-input" size="mini"/>
                     <el-button
-                      class="cancel-btn"
-                      size="mini"
                       icon="el-icon-refresh"
-                      type="warning"
+                      type="text"
                       @click="cancelEdit(data)"
                     >
                       cancel
@@ -39,17 +37,16 @@
                 <span style="align-items: end">
                   <el-button
                     v-if="data.edit&&!data.is_slide&&!data.is_slides&&node.level===3"
-                    type="success"
-                    size="mini"
                     icon="el-icon-circle-check-outline"
                     @click="confirmEdit(data)"
+                    type="text"
+                    class="comfirm_button"
                   >
                     Ok
                   </el-button>
                   <el-button
                     v-else-if="!data.is_slide&&!data.is_slides&&node.level===3"
-                    type="primary"
-                    size="mini"
+                    type="text"
                     icon="el-icon-edit"
                     @click="f(data)"
                   >
@@ -58,16 +55,15 @@
 
                   <el-button
                     v-if="node.level===2||node.level===1"
-                    type="warning"
-                    size="mini"
+                    type="text"
                     @click="() => append(node)"
                   >
                     Append
                   </el-button>
                   <el-button
                     v-if="node.level!==1"
-                    type="danger"
-                    size="mini"
+                    type="text"
+                    class="comfirm_button"
                     @click="() => remove(node, data)"
                   >
                     Delete
@@ -260,7 +256,7 @@ export default {
       // console.log(parent)
       if (children.length === 1 && parent.level === 0) {
         this.$message({
-          message: '不能删除根节点！！！',
+          message: '无法删除根节点！',
           type: 'failure'
         })
         return
@@ -271,7 +267,7 @@ export default {
       data.label = data.original_label
       data.edit = false
       this.$message({
-        message: 'The content has been restored to the original value',
+        message: '操作取消！',
         type: 'warning'
       })
     },
@@ -279,7 +275,7 @@ export default {
       data.edit = false
       data.original_label = data.label
       this.$message({
-        message: 'The content has been edited',
+        message: '编辑结束！',
         type: 'success'
       })
     },
@@ -379,5 +375,12 @@ export default {
   font-size: 14px;
   padding-right: 8px;
 }
-
+.delete_button{
+  background-color: white;
+  color:red;
+}
+.confirm_button{
+  background-color: white;
+  color:green;
+}
 </style>
