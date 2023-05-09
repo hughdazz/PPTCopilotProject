@@ -2,9 +2,12 @@
   <div class="login-container">
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on"
       label-position="left">
+      <div class="wrapper">
+
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <img src="https://user-images.githubusercontent.com/75596353/236753989-c95dd9d6-029e-4456-aec4-dd65363a9c5d.png" alt="PPTCopilot Logo" class="logo">
+        <h1 class="title">登录</h1>
       </div>
 
       <el-form-item prop="username_or_email">
@@ -27,13 +30,8 @@
       </el-form-item>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"
-        @click.native.prevent="handleLogin">Login</el-button>
-
-      <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
+        @click.native.prevent="handleLogin">登录</el-button>
       </div>
-
     </el-form>
   </div>
 </template>
@@ -110,8 +108,8 @@ export default {
 /* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg: #283443;
-$light_gray: #fff;
-$cursor: #fff;
+$light_gray: #000000;
+$cursor: #000000;
 
 @supports (-webkit-mask: none) and (not (cater-color: $cursor)) {
   .login-container .el-input input {
@@ -137,7 +135,7 @@ $cursor: #fff;
       caret-color: $cursor;
 
       &:-webkit-autofill {
-        box-shadow: 0 0 0px 1000px $bg inset !important;
+        box-shadow: 0 0 0px 1000px #889aa4 inset !important;
         -webkit-text-fill-color: $cursor !important;
       }
     }
@@ -153,9 +151,9 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg: #2d3a4b;
+$bg: #ffffff;
 $dark_gray: #889aa4;
-$light_gray: #eee;
+$light_gray: #000000;
 
 .login-container {
   min-height: 100%;
@@ -172,17 +170,6 @@ $light_gray: #eee;
     overflow: hidden;
   }
 
-  .tips {
-    font-size: 14px;
-    color: #fff;
-    margin-bottom: 10px;
-
-    span {
-      &:first-of-type {
-        margin-right: 16px;
-      }
-    }
-  }
 
   .svg-container {
     padding: 6px 5px 6px 15px;
@@ -212,6 +199,21 @@ $light_gray: #eee;
     color: $dark_gray;
     cursor: pointer;
     user-select: none;
+  }
+
+  .logo {
+    width: 150px; // 将宽度从 80px 修改为 60px
+    height: auto;
+    margin: 0 auto;
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  .wrapper {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin: 0 auto;
+    border-radius: 10px;
   }
 }
 </style>

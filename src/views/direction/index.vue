@@ -1,427 +1,172 @@
 <template>
-  <el-tabs v-model="tab_index" @tab-click="handleClick">
-    <el-tab-pane label="选择模板" name="tab0">
-      <el-row v-for="(row, index) in ppt_template_rows_ls" :key="index">
-        <el-col v-for="(item, i) in row" :key="i" :span="8">
-          <!-- 这里可以根据需要渲染每个元素的内容 -->
-          {{ item }}
-        </el-col>
+  <div class="container">
+    <el-card>
+      <el-row :gutter="20">
+        <el-tag style="margin: 10px 10px;">{{ template_id | templateStatus }}</el-tag>
       </el-row>
-      <div class="demo-input-suffix">
-        <span class="demo-input-label">PPT Topic：</span>
-        <el-input
-          v-model="ppt_topic"
-          placeholder="Please Input Topic"
-          suffix-icon="el-icon-date"
-        />
-      </div>
-      <div class="demo-input-suffix">
-        <span class="demo-input-label">Presenter’s Name：</span>
-        <el-input
-          v-model="presenter_name"
-          placeholder="Please Input Presenter’s Name"
-          suffix-icon="el-icon-date"
-        />
-      </div>
-      <el-button type="primary" @click="next_step">下一步</el-button>
-    </el-tab-pane>
-    <el-tab-pane label="大纲编辑" name="tab1">
-      <el-card style="width: 800px;margin: 10px 10px;">
-        <div class="custom-tree-container">
-          <div class="block" style="">
-            <p style="text-align: center">PPT title</p>
-            <el-tree
-              :data="data"
-              node-key="id"
-              default-expand-all
-              draggable
-              :allow-drop="allowDrop"
-              :allow-drag="allowDrag"
-              :expand-on-click-node="false"
-            >
-              <span slot-scope="{ node, data }" class="custom-tree-node">
-
-                <span style="align-items: start">
-                  <template v-if="data.edit">
-                    <el-input v-model="data.label" class="edit-input" size="mini" />
-                    <el-button
-                      class="cancel-btn"
-                      size="mini"
-                      icon="el-icon-refresh"
-                      type="warning"
-                      @click="cancelEdit(data)"
-                    >
-                      cancel
-                    </el-button>
-                  </template>
-                  <span v-else>
-                    <span v-if="data.label === 'Slides'"> <el-tag type="success">{{ data.label }}</el-tag></span>
-                    <span v-else-if="data.label === 'Slide'"> <el-tag type="warning">{{ data.label }}</el-tag></span>
-                    <span v-else> <el-tag type="info">{{ data.label }}</el-tag></span>
-                  </span>
-                </span>
-
-                <span style="align-items: end">
-                  <el-button
-                    v-if="data.edit&&!data.is_slide&&!data.is_slides&&node.level===3"
-                    type="success"
-                    size="mini"
-                    icon="el-icon-circle-check-outline"
-                    @click="confirmEdit(data)"
-                  >
-                    Ok
-                  </el-button>
-                  <el-button
-                    v-else-if="!data.is_slide&&!data.is_slides&&node.level===3"
-                    type="primary"
-                    size="mini"
-                    icon="el-icon-edit"
-                    @click="f(data)"
-                  >
-                    Edit
-                  </el-button>
-
-                  <el-button
-                    v-if="node.level===2||node.level===1"
-                    type="warning"
-                    size="mini"
-                    @click="() => append(node)"
-                  >
-                    Append
-                  </el-button>
-                  <el-button
-                    v-if="node.level!==1"
-                    type="danger"
-                    size="mini"
-                    @click="() => remove(node, data)"
-                  >
-                    Delete
-                  </el-button>
-                </span>
-              </span>
-            </el-tree>
-          </div>
+      <el-row :gutter="20">
+        <el-input v-model="topic" placeholder="请输入主题" style="width: 300px;margin: 10px 10px;" />
+      </el-row>
+      <el-row :gutter="20">
+        <el-input v-model="sponsor" placeholder="请输入汇报人" style="width: 300px;margin: 10px 10px;" />
+      </el-row>
+      <el-row :gutter="20">
+        <el-button type="primary" @click="createPPT" style="margin: 10px 10px;">创建PPT
+        </el-button>
+      </el-row>
+      <h1>
+        选择模板
+      </h1>
+      <div style="width: 70% ;margin: 0 auto;">
+        <el-row :gutter="20" class="template-row">
+          <el-col v-for="(card, index) in paginatedCards" :key="index" :span="6">
+            <el-card class="template-card">
+              <el-image :src="card.imageUrl" class="template-cover" />
+              <el-radio v-model="template_id" :label="card.id" class="template-title">{{ card.title }}</el-radio>
+            </el-card>
+          </el-col>
+        </el-row>
+        <div class="pagination-container">
+          <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
+            :total="cards.length" layout="prev, pager, next, jumper" />
         </div>
-      </el-card>
-      <el-button type="primary" @click="last_step">上一步</el-button>
-      <el-button type="primary" @click="next_step">下一步</el-button>
-    </el-tab-pane>
-    <el-tab-pane label="Role" name="tab2">Role</el-tab-pane>
-    <el-tab-pane label="Task" name="tab3">Task</el-tab-pane>
-  </el-tabs>
+      </div>
+
+
+    </el-card>
+  </div>
 </template>
 <script>
-
-let id = 1000
-let tab_id = 0
-
 export default {
   data() {
-    const render_data = [{
-      id: 1,
-      label: 'Level one 1',
-      children: [{
-        id: 4,
-        label: 'Level two 1-1',
-        children: [{
-          id: 9,
-          label: 'Level three 1-1-1'
-        }, {
-          id: 10,
-          label: 'Level three 1-1-2'
-        }]
-      }]
-    }, {
-      id: 2,
-      label: 'Level one 2',
-      children: [{
-        id: 5,
-        label: 'Level two 2-1'
-      }, {
-        id: 6,
-        label: 'Level two 2-2'
-      }]
-    }, {
-      id: 3,
-      label: 'Level one 3',
-      children: [{
-        id: 7,
-        label: 'Level two 3-1'
-      }, {
-        id: 8,
-        label: 'Level two 3-2'
-      }]
-    }]
-    const source_xml_data = `
-      <slides>
-  <slide id="test-slide-1">
-    <p id="idn7Mx">论语</p>
-    <p id="7stmVP">有朋自远方来，不亦乐乎。</p>
-  </slide>
-  <slide id="test-slide-1">
-    <p id="idn7Mx">礼记</p>
-    <p id="7stmVP">小唐，我喜欢你</p>
-  </slide>
-  <slide id="test-slide-1">
-    <p id="idn7Mx">求之不得</p>
-    <p id="7stmVP">寤寐思服</p>
-  </slide>
-</slides>
-`
     return {
-      activeName: 'first',
-      outline_ls: null,
-      render_data,
-      data: JSON.parse(JSON.stringify(render_data)),
-      source_xml_data,
-      ppt_template_ls: [],
-      ppt_template_rows_ls: [],
-      presenter_name: '',
-      ppt_topic: ' ',
-      tab_index: 'tab' + tab_id
+      topic: '',
+      sponsor: '',
+      template_id: 0,
+      currentPage: 1,
+      pageSize: 4,
+      cards: [
+        {
+          id: 1,
+          title: '清新绿',
+          imageUrl: 'https://user-images.githubusercontent.com/91320586/236781759-d196f1ce-141d-49ff-abf7-214398f265c9.jpg'
+        },
+        {
+          id: 2,
+          title: '思政红',
+          imageUrl: 'https://user-images.githubusercontent.com/91320586/236781963-d0de5751-63a2-4633-8f40-3d466b8e883f.jpg'
+        },
+        {
+          id: 3,
+          title: '酷黑',
+          imageUrl: 'https://user-images.githubusercontent.com/91320586/236782076-768f4b57-5e0b-4a81-a587-cd982cd5a079.jpg'
+        },
+        {
+          id: 4,
+          title: '卡通蓝色',
+          imageUrl: 'https://user-images.githubusercontent.com/91320586/236782243-6f64cfbd-6493-4547-b889-ca3cf5f2afd9.jpg'
+        },
+        {
+          id: 5,
+          title: '纯白',
+          imageUrl: 'https://user-images.githubusercontent.com/91320586/236782311-a49671af-cfea-4079-87c3-d7e6da7165e3.jpg'
+        },
+        {
+          id: 6,
+          title: '白蓝',
+          imageUrl: 'https://user-images.githubusercontent.com/91320586/236782162-f1494a70-aece-4932-8e6d-faafe90c7cbc.jpg'
+        },
+        {
+          id: 7,
+          title: '灰',
+          imageUrl: 'https://user-images.githubusercontent.com/91320586/236782426-40f69d80-304a-4a94-a7a3-c3a33c92cda4.jpg'
+        }
+      ]
+    };
+  },
+  filters: {
+    templateStatus(value) {
+      if (value === 0) {
+        return '未选择模板';
+      } else {
+        return '已选择模板';
+      }
     }
   },
-  mounted() {
-    // this.dfs(this.data)
-    // console.log(JSON.stringify(this.data, ' ', 2))
-  },
-  created() {
-    this.dfs(this.data)
-    // this.$set(this, this.data, this.data)
-    console.log(JSON.stringify(this.data, ' ', 2))
-
-    this.render_data = this.update_source_xml_data_to_render_data(this.source_xml_data)
-    this.dfs(this.render_data)
-    console.log(JSON.stringify(this.render_data, ' ', 2))
-
-    this.data = this.render_data
-
-    for (let i = 0; i < 13; i++) {
-      this.ppt_template_ls.push({
-        'name': i,
-        'love': '小唐'
-      })
+  computed: {
+    paginatedCards() {
+      const startIndex = (this.currentPage - 1) * this.pageSize;
+      const endIndex = startIndex + this.pageSize;
+      return this.cards.slice(startIndex, endIndex);
     }
-
-    this.ppt_template_rows_ls = this.get_row(this.ppt_template_ls, 3)
-
-    console.log(JSON.stringify(this.ppt_template_rows_ls, ' ', 2))
-
-    this.convert_tree_to_xml()
   },
   methods: {
-    convert_tree_to_xml (data){
-      // 遍历data，获取label，递归遍历children
-      const root_slides_name = 'Slides'
-      const slide_name = 'Section'
-      const top_dom = document.createElement(root_slides_name)
-
-      data = data[0]
-      for(var i=0;i<data.length;i++){
-        // 在根节点下创建子节点
-        const child = document.createElement(slide_name)
-
-        for(var j =0 ;j<data[i].length;j++) {
-          child.appendChild(data[i].label)
-        }
-
-        top_dom.appendChild(child)
-      }
-      console.log(top_dom.outerHTML)
-      return top_dom.outerHTML
+    handleCurrentChange(val) {
+      this.currentPage = val;
     },
-    last_step() {
-      this.tab_index = 'tab' + (--tab_id) % 4
-    },
-    next_step() {
-      this.tab_index = 'tab' + (++tab_id) % 4
-    },
-    get_row(data, num_col) {
-      const rows = []
-      let temp = []
-      for (let i = 0; i < data.length; i++) {
-        temp.push(data[i])
-        if ((i + 1) % num_col === 0 || i === data.length - 1) {
-          rows.push(temp)
-          temp = []
-        }
-      }
-      return rows
-    },
-    allowDrop(draggingNode, dropNode, type) {
-      if (dropNode.data.label === 'Level two 3-1') {
-        return type !== 'inner'
-      } else {
-        return true
-      }
-    },
-    allowDrag(draggingNode) {
-      return draggingNode.data.label.indexOf('Level three 3-1-1') === -1
-    },
-    dfs(node) {
-      if (!Array.isArray(node)) {
-        this.$set(node, 'edit', false)
-        this.$set(node, 'original_label', node.label)
-        let is_slides = false
-        let is_slide = false
-        if (node.label === 'Slides') { is_slides = true }
-        if (node.label === 'Slide') { is_slide = true }
-        this.$set(node, 'is_slides', is_slides)
-        this.$set(node, 'is_slide', is_slide)
-        // node.edit = false
-        // node.original_label = node.label
-        if ('children' in node) {
-          this.dfs(node.children)
-        } else { return }
-      } else {
-        for (var i = 0; i < node.length; i++) {
-          this.dfs(node[i])
-        }
-      }
-    },
-    f(data) {
-      console.log(data)
-      data.edit = !data.edit
-      // this.$set(data, 'edit', !data.edit)
-    },
-    append(node) {
-      console.log(node)
-      let name = ''
-      if (node.level === 1) {
-        name = 'Slide'
-      } else {
-        name = 'New Item'
-      }
-      const newChild = { id: id++, label: name, 'edit': false, 'original_label': 'new item', children: [] }
-      if (!node.data.children) {
-        this.$set(node.data, 'children', [])
-      }
-      node.data.children.push(newChild)
-    },
-    remove(node, data) {
-      // console.log((node))
-      // console.log(data)
-      const parent = node.parent
-      const children = parent.data.children || parent.data
-      const index = children.findIndex(d => d.id === data.id)
-      // console.log(children)
-      // console.log(parent)
-      if (children.length === 1 && parent.level === 0) {
+    createPPT() {
+      if (this.template_id === 0) {
         this.$message({
-          message: '不能删除根节点！！！',
-          type: 'failure'
-        })
-        return
-      }
-      children.splice(index, 1)
-    },
-    cancelEdit(data) {
-      data.label = data.original_label
-      data.edit = false
-      this.$message({
-        message: 'The content has been restored to the original value',
-        type: 'warning'
-      })
-    },
-    confirmEdit(data) {
-      data.edit = false
-      data.original_label = data.label
-      this.$message({
-        message: 'The content has been edited',
-        type: 'success'
-      })
-    },
-    handleClick(tab, event) {
-      console.log(tab, event)
-    },
-    changeText(element, text) {
-      // 功能：替换一个元素中的文本
-      // 前提：保证一个元素中只有一个文本
-      // 实现：dfs遍历
-
-      // 遍历所有子节点
-      for (let i = 0; i < element.childNodes.length; i++) {
-        const childNode = element.childNodes[i]
-        // 如果是文本节点（nodeType为3）
-        if (childNode.nodeType === 3) {
-          // 使用回调函数处理文本内容
-          // console.log('before', childNode.nodeValue)
-          childNode.nodeValue = text
-          // console.log('after', childNode.nodeValue)
-        } else {
-          // 如果是元素节点，递归处理子节点
-          this.changeText(childNode, text)
-        }
-      }
-    },
-    update_source_xml_data_to_render_data(xml) {
-      // 功能：将xml转换为前端能渲染的json
-      // 参数：gpt返回的xml大纲
-      // 说明：
-      // 返回值：前端能渲染的json
-
-      const parser = new DOMParser()
-
-      const top_dom = parser.parseFromString(xml, 'application/xml')
-
-      if (top_dom.documentElement.nodeName === 'parsererror') {
-        // console.error('XML 解析失败 when update_xml_to_dom_to_slide')
+          message: '请选择模板',
+          type: 'warning'
+        });
+      } else if (this.topic === '') {
+        this.$message({
+          message: '请输入主题',
+          type: 'warning'
+        });
+      } else if (this.sponsor === '') {
+        this.$message({
+          message: '请输入汇报人',
+          type: 'warning'
+        });
       } else {
-        // console.log('XML 解析成功\n', xml)
-
-        const render_data = []
-        render_data.push({
-          id: id++,
-          label: 'Slides',
-          children: []
-
-        })
-
-        top_dom.querySelectorAll('slide').forEach((slide) => {
-          // console.log(slide)
-
-          render_data[0].children.push({
-            id: id++,
-            label: 'Slide',
-            children: []
-          })
-
-          // 注意：这是遍历直接子级元素
-          let child = slide.firstChild
-          while (child) {
-            if (child.nodeType === Node.ELEMENT_NODE) {
-              // console.log(child.nodeType, child.textContent, child instanceof Element)
-              console.log(child.textContent)
-
-              render_data[0].children[render_data[0].children.length - 1].children.push({
-                id: id++,
-                label: child.textContent,
-                children: []
-              })
-            }
-            if (child?.nextSibling) {
-              child = child.nextSibling
-            } else {
-              break
-            }
+        this.$router.push({
+          path: '/direction/edit',
+          query: {
+            topic: this.topic,
+            sponsor: this.sponsor,
+            template_id: this.template_id
           }
-        }
-        )
-        return render_data
+        });
       }
     }
   }
-}
+};
 </script>
-
-<style>
-.custom-tree-node {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  font-size: 14px;
-  padding-right: 8px;
+<style scoped>
+.container {
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
+.template-row {
+  margin-top: 20px;
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.template-card {
+  margin-bottom: 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+}
+
+.template-cover {
+  height: 120px;
+  object-fit: cover;
+  border-radius: 4px 4px 0 0;
+}
+
+.template-title {
+  display: block;
+  margin-top: 10px;
+}
+
+.pagination-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
 </style>
