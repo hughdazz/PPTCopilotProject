@@ -206,8 +206,30 @@ export default {
     this.ppt_template_rows_ls = this.get_row(this.ppt_template_ls, 3)
 
     console.log(JSON.stringify(this.ppt_template_rows_ls, ' ', 2))
+
+    this.convert_tree_to_xml()
   },
   methods: {
+    convert_tree_to_xml (data){
+      // 遍历data，获取label，递归遍历children
+      const root_slides_name = 'Slides'
+      const slide_name = 'Section'
+      const top_dom = document.createElement(root_slides_name)
+
+      data = data[0]
+      for(var i=0;i<data.length;i++){
+        // 在根节点下创建子节点
+        const child = document.createElement(slide_name)
+
+        for(var j =0 ;j<data[i].length;j++) {
+          child.appendChild(data[i].label)
+        }
+
+        top_dom.appendChild(child)
+      }
+      console.log(top_dom.outerHTML)
+      return top_dom.outerHTML
+    },
     last_step() {
       this.tab_index = 'tab' + (--tab_id) % 4
     },
