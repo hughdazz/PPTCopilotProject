@@ -1,24 +1,15 @@
 import request from '@/utils/request'
 
-export function submitForm() {
+export function getProject(id) {
   return request({
-    url: '/vue-element-admin/submit/form',
+    url: '/project?id='+id,
     method: 'get',
-    params: { }
   })
 }
 
-export function addProject(query) {
+export function getFile(id) {
   return request({
-    url: '/add/project',
+    url: '/project?id='+id+'/file',
     method: 'get',
-    params: query
-  })
-}
-export function fetchList(query) {
-  return request({
-    url: '/project',
-    method: 'get',
-    params: query
   })
 }
