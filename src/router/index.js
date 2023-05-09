@@ -49,9 +49,8 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: 'PPTCopilot！',
       component: () => import('@/views/dashboard/index'),
-      meta: {title: 'PPTCopilot！', icon: 'dashboard'}
+      meta: {title: '你好', icon: 'dashboard'}
     }]
   },
 
