@@ -24,14 +24,15 @@ export default {
   },
   data() {
     return {
-      title: 'Vue Admin Template',
-      logo: 'https://wpimg.wallstcn.com/69a1c46c-eb1c-4b46-8bd4-e9e686ef5251.png'
+      title: 'PPTCopilot',
+      logo: 'https://user-images.githubusercontent.com/75596353/236753989-c95dd9d6-029e-4456-aec4-dd65363a9c5d.png'
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@import "~@/styles/variables.scss";
 .sidebarLogoFade-enter-active {
   transition: opacity 1.5s;
 }
@@ -46,7 +47,7 @@ export default {
   width: 100%;
   height: 50px;
   line-height: 50px;
-  background: #2b2f3a;
+  background: $menuBg;
   text-align: center;
   overflow: hidden;
 
@@ -64,7 +65,7 @@ export default {
     & .sidebar-title {
       display: inline-block;
       margin: 0;
-      color: #fff;
+      color: $menuText;
       font-weight: 600;
       line-height: 50px;
       font-size: 14px;
