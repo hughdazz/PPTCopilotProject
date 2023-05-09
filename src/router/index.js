@@ -75,13 +75,14 @@ export const constantRoutes = [
     children: [
       {
         path: 'index',
-        component: () => import('@/views/project/index'),
+        component: () => import('@/views/project/index.vue'),
         name: 'Project',
         meta: {title: '我的项目'}
       },
       {
         path: 'file',
         component: () => import('@/views/project/file'),
+        hidden: true,
         name: 'File',
         meta: {title: '我的文件'}
       }
