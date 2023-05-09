@@ -49,42 +49,82 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: {title: '你好', icon: 'dashboard'}
     }]
   },
 
   {
-    path: '/',
+    path: '/search',
     component: Layout,
-    redirect: '/search',
     children: [{
-      path: 'search',
+      path: '/index',
       name: 'Search',
       component: () => import('@/views/search/index'),
-      meta: { title: 'Search', icon: 'search' }
+      meta: {title: '搜索', icon: 'search'}
     }]
   },
-
+  {
+    path: '/project',
+    meta: {
+      title: '项目管理',
+      icon: 'el-icon-s-help'
+    },
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/project/index.vue'),
+        name: 'Project',
+        meta: {title: '我的项目'}
+      },
+      {
+        path: 'file',
+        component: () => import('@/views/project/file'),
+        hidden: true,
+        name: 'File',
+        meta: {title: '我的文件'}
+      }
+    ]
+  },
+  {
+    path: '/direction',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/direction/index'),
+        name: 'Direction',
+        meta: {title: '引导流程', icon: 'form'}
+      },
+      {
+        path: 'edit',
+        hidden: true,
+        component: () => import('@/views/direction/edit'),
+        name: 'Edit',
+        meta: {title: '编辑流程', icon: 'form'}
+      }
+    ]
+  },
   {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
     name: 'Example',
-    meta: { title: 'Example', icon: 'el-icon-s-help' },
+    hidden: true,
+    meta: {title: 'Example', icon: 'el-icon-s-help'},
     children: [
       {
         path: 'table',
         name: 'Table',
         component: () => import('@/views/table/index'),
-        meta: { title: 'Table', icon: 'table' }
+        meta: {title: 'Table', icon: 'table'}
       },
       {
         path: 'tree',
         name: 'Tree',
         component: () => import('@/views/tree/index'),
-        meta: { title: 'Tree', icon: 'tree' }
+        meta: {title: 'Tree', icon: 'tree'}
       }
     ]
   },
@@ -92,42 +132,24 @@ export const constantRoutes = [
   {
     path: '/form',
     component: Layout,
+    hidden: true,
     children: [
       {
         path: 'index',
         name: 'Form',
         component: () => import('@/views/form/index'),
-        meta: { title: 'Form', icon: 'form' }
+        meta: {title: 'Form', icon: 'form'}
       }
     ]
   },
-  {
-    path: '/project',
-    meta: {
-      title: '项目管理',
-      icon: 'component'
-    },
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/project/index'),
-        name: 'Project',
-        meta: { title: '我的项目' }
-      },
-      {
-        path: 'file',
-        component: () => import('@/views/project/file'),
-        name: 'File',
-        meta: { title: '我的文件' }
-      }
-    ]
-  },
+
+
   {
     path: '/nested',
     component: Layout,
     redirect: '/nested/menu1',
     name: 'Nested',
+    hidden: true,
     meta: {
       title: 'Nested',
       icon: 'nested'
@@ -137,31 +159,31 @@ export const constantRoutes = [
         path: 'menu1',
         component: () => import('@/views/nested/menu1/index'), // Parent router-view
         name: 'Menu1',
-        meta: { title: 'Menu1' },
+        meta: {title: 'Menu1'},
         children: [
           {
             path: 'menu1-1',
             component: () => import('@/views/nested/menu1/menu1-1'),
             name: 'Menu1-1',
-            meta: { title: 'Menu1-1' }
+            meta: {title: 'Menu1-1'}
           },
           {
             path: 'menu1-2',
             component: () => import('@/views/nested/menu1/menu1-2'),
             name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
+            meta: {title: 'Menu1-2'},
             children: [
               {
                 path: 'menu1-2-1',
                 component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
                 name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
+                meta: {title: 'Menu1-2-1'}
               },
               {
                 path: 'menu1-2-2',
                 component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
                 name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
+                meta: {title: 'Menu1-2-2'}
               }
             ]
           },
@@ -169,7 +191,7 @@ export const constantRoutes = [
             path: 'menu1-3',
             component: () => import('@/views/nested/menu1/menu1-3'),
             name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
+            meta: {title: 'Menu1-3'}
           }
         ]
       },
@@ -177,7 +199,7 @@ export const constantRoutes = [
         path: 'menu2',
         component: () => import('@/views/nested/menu2/index'),
         name: 'Menu2',
-        meta: { title: 'menu2' }
+        meta: {title: 'menu2'}
       }
     ]
   },
@@ -185,10 +207,11 @@ export const constantRoutes = [
   {
     path: 'external-link',
     component: Layout,
+    hidden: true,
     children: [
       {
         path: 'https://panjiachen.github.io/vue-element-admin-site/#/',
-        meta: { title: 'External Link', icon: 'link' }
+        meta: {title: 'External Link', icon: 'link'}
       }
     ]
   },
@@ -203,18 +226,18 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/profile/index'),
         name: 'Profile',
-        meta: { title: 'Profile', icon: 'user', noCache: true }
+        meta: {title: 'Profile', icon: 'user', noCache: true}
       }
     ]
   },
 
   // 404 page must be placed at the end !!!
-  { path: '*', redirect: '/404', hidden: true }
+  {path: '*', redirect: '/404', hidden: true}
 ]
 
 const createRouter = () => new Router({
   // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
+  scrollBehavior: () => ({y: 0}),
   routes: constantRoutes
 })
 
