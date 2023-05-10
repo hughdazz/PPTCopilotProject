@@ -73,6 +73,8 @@
         </el-tree>
       </div>
     </div>
+
+    <el-button type="primary" @click="createPPT">创建PPT</el-button>
   </el-card>
 </template>
 <script>
@@ -134,6 +136,7 @@ export default {
       topic: '',
       sponsor: '',
       loading: true,
+      outlineId: '',
     }
   },
   created() {
@@ -145,8 +148,8 @@ export default {
       'topic': this.topic, 'sponsor': this.sponsor
     }).then(res => {
       // 将\n替换为换行
-      res.data = res.data.replace(/\\n/g, '\n')
-      this.source_xml_data = res.data
+      this.outlineId = res.data['Id']
+      this.source_xml_data = res.data['Outline']
       console.log(this.source_xml_data)
       this.loading = false
 
@@ -178,6 +181,11 @@ export default {
 
   },
   methods: {
+    createPPT() {
+      // 跳转外部界面
+      let url='http://localhost:7777'
+      window.open(url + '?id=' + this.outlineId)
+    },
     get_row(data, num_col) {
       const rows = []
       let temp = []
@@ -375,12 +383,14 @@ export default {
   font-size: 14px;
   padding-right: 8px;
 }
-.delete_button{
+
+.delete_button {
   background-color: white;
-  color:red;
+  color: red;
 }
-.confirm_button{
+
+.confirm_button {
   background-color: white;
-  color:green;
+  color: green;
 }
 </style>
