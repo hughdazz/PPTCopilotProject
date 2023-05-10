@@ -49,22 +49,62 @@ export const constantRoutes = [
     redirect: '/dashboard',
     children: [{
       path: 'dashboard',
-      name: 'PPTCopilot！',
       component: () => import('@/views/dashboard/index'),
-      meta: {title: 'PPTCopilot！', icon: 'dashboard'}
+      meta: {title: '你好', icon: 'dashboard'}
     }]
   },
 
   {
     path: '/search',
     component: Layout,
-    name: 'Search',
     children: [{
-      path: 'search',
+      path: '/index',
       name: 'Search',
       component: () => import('@/views/search/index'),
       meta: {title: '搜索', icon: 'search'}
     }]
+  },
+  {
+    path: '/project',
+    meta: {
+      title: '项目管理',
+      icon: 'el-icon-s-help'
+    },
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/project/index.vue'),
+        name: 'Project',
+        meta: {title: '我的项目'}
+      },
+      {
+        path: 'file',
+        component: () => import('@/views/project/file'),
+        hidden: true,
+        name: 'File',
+        meta: {title: '我的文件'}
+      }
+    ]
+  },
+  {
+    path: '/direction',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/direction/index'),
+        name: 'Direction',
+        meta: {title: '引导流程', icon: 'form'}
+      },
+      {
+        path: 'edit',
+        hidden: true,
+        component: () => import('@/views/direction/edit'),
+        name: 'Edit',
+        meta: {title: '编辑流程', icon: 'form'}
+      }
+    ]
   },
   {
     path: '/example',
@@ -102,41 +142,8 @@ export const constantRoutes = [
       }
     ]
   },
-  {
-    path: '/project',
-    meta: {
-      title: '项目管理',
-      icon: 'el-icon-s-help'
-    },
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/project/index'),
-        name: 'Project',
-        meta: {title: '我的项目'}
-      },
-      {
-        path: 'file',
-        component: () => import('@/views/project/file'),
-        name: 'File',
-        meta: {title: '我的文件'}
-      }
-    ]
-  },
-  {
-    path: '/direction',
-    component: Layout,
-    redirect: '/direction/index',
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/direction/index'),
-        name: 'Direction',
-        meta: {title: '引导流程', icon: 'form'}
-      }
-    ]
-  },
+
+
   {
     path: '/nested',
     component: Layout,
