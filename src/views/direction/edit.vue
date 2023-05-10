@@ -221,7 +221,7 @@ export default {
 
         for(var j =0 ;j<data.children[i].children.length;j++) {
           const my_Element_dom = document.createElement('p')
-          my_Element_dom.innerHTML = data.children[i].children[j].label
+          my_Element_dom.innerTextnerHTML = data.children[i].children[j].label
           child.appendChild(my_Element_dom)
         }
 
