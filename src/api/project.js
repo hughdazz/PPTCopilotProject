@@ -16,7 +16,7 @@ export function getProjectList() {
 
 export function getFile(id) {
   return request({
-    url: '/project?id=' + id + '/file',
+    url: '/project/' + id + '/file',
     method: 'get',
   })
 }
