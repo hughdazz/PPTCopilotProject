@@ -107,6 +107,18 @@ export const constantRoutes = [
     ]
   },
   {
+    path: '/pptist',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/pptist/index'),
+        name: 'Pptist',
+        meta: {title: 'PPT编辑', icon: 'el-icon-edit'}
+      }
+    ]
+  },
+  {
     path: '/example',
     component: Layout,
     redirect: '/example/table',
