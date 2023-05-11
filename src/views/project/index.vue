@@ -8,10 +8,10 @@
       <div class="project-list">
         <div class="card-view">
           <el-row>
-            <el-col v-for="item in projectList" :key="item.Id" :span="8">
+            <el-col v-for="item in projectList" :key="item.Id" :span="6">
               <ProjectCard :image="getImageUrl(item.Id)" :title="item.Name" :id="item.Id"
                            :handle-delete="handleDelete" :handle-rename="handleRename"
-                           @click="handleClick(item.Id)" @command="handleCommand"/>
+                           />
             </el-col>
           </el-row>
         </div>
@@ -25,6 +25,7 @@
 
 import ProjectCard from "@/views/project/components/ProjectCard/index.vue";
 import {getProject, createProject, getProjectList, updateProject, deleteProject} from "@/api/project"
+import router from "@/router";
 
 export default {
   components: {ProjectCard},
@@ -40,13 +41,10 @@ export default {
     getImageUrl(id) {
       return "http://localhost:8080/static/project/" + id + "/cover.png"
     },
-    handleClick(id) {
-      // 处理点击事件
+
+    handleCommand(id) {
+      //进入文件
       console.log('click')
-    },
-    handleCommand(command) {
-      // 处理操作事件
-      console.log(command)
     },
     handleCreate() {
       this.$prompt('请输入新增项目的标题', '提示',

@@ -1,22 +1,21 @@
 <template>
-  <el-card :body-style="0" shadow="always" @click="handleClick"  class="project-card">
-    <img :src="image" class="image">
-    <div style="padding: 14px;">
-      <div>
-        <span class="title">{{ title }}</span>
-        <span class="update-date">{{ Updated }}</span>
-        <div class="command" style="margin: 0;padding: 0;">
-          <el-dropdown @command="handleCommand">
-            <span class="el-dropdown-link">操作</span>
-            <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="rename">重命名</el-dropdown-item>
-              <el-dropdown-item command="delete">删除</el-dropdown-item>
-            </el-dropdown-menu>
-          </el-dropdown>
-        </div>
-      </div>
+  <div class="project-card">
+    <div class="project-image">
+      <img :src="image" alt="">
     </div>
-  </el-card>
+    <h3>{{ title }}</h3>
+    <p>{{ Updated }}</p>
+    <div class="project-actions">
+      <el-button type="primary" @click="openFile">打开</el-button>
+      <el-dropdown @command="handleCommand">
+        <i class="el-icon-more"></i>
+        <el-dropdown-menu>
+          <el-dropdown-item command="rename">重命名</el-dropdown-item>
+          <el-dropdown-item command="delete">删除</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -53,6 +52,10 @@ export default {
     handleClick() {
       // 处理点击事件
       this.$message.error('ok')
+    },
+    openFile(){
+      console.log(1)
+      this.$router.push({path: '/project/' + this.id+'/file'})
     },
     handleCommand(command) {
       switch (command) {
@@ -113,34 +116,34 @@ export default {
 </script>
 <style scoped>
 .project-card {
-  width: 350px;
-  margin: 10px;
+  border: 1px solid #ebebeb;
+  border-radius: 4px;
+  padding: 20px;
+  margin: 30px;
 }
 
-.image {
-  width: 300px;
+.project-card:hover {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.project-image {
   height: 200px;
-  object-fit: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
 }
 
-.el-dropdown-link {
-  cursor: pointer;
-  color: #409EFF;
-  font-size: 15px;
+.project-image img {
+  max-width: 100%;
+  max-height: 100%;
 }
 
-.title {
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.command {
-  float: right;
-  margin-top: -20px;
-}
-
-.update-date {
-  font-size: 12px;
-  color: #999;
+.project-actions {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 </style>
+
