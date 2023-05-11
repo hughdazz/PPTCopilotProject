@@ -148,8 +148,8 @@ export default {
       'topic': this.topic, 'sponsor': this.sponsor
     }).then(res => {
       // 将\n替换为换行
-      this.outlineId = res.data['Id']
-      this.source_xml_data = res.data['Outline']
+      res.data.Outline = res.data.Outline.replace(/\\n/g, '\n')
+      this.source_xml_data = res.data.Outline
       console.log(this.source_xml_data)
       this.loading = false
 
