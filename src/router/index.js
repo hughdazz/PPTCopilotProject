@@ -85,7 +85,7 @@ export const constantRoutes = [
         meta: {title: '我的项目'}
       },
       {
-        path: 'file',
+        path: ':id/file',
         component: () => import('@/views/project/file'),
         hidden: true,
         name: 'File',
