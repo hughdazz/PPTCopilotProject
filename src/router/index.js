@@ -38,6 +38,12 @@ export const constantRoutes = [
   },
 
   {
+    path: '/register',
+    component: () => import('@/views/register/index'),
+    hidden: true
+  },
+
+  {
     path: '/404',
     component: () => import('@/views/404'),
     hidden: true
@@ -79,7 +85,7 @@ export const constantRoutes = [
         meta: {title: '我的项目'}
       },
       {
-        path: 'file',
+        path: ':id/file',
         component: () => import('@/views/project/file'),
         hidden: true,
         name: 'File',
@@ -103,6 +109,18 @@ export const constantRoutes = [
         component: () => import('@/views/direction/edit'),
         name: 'Edit',
         meta: {title: '编辑流程', icon: 'form'}
+      }
+    ]
+  },
+  {
+    path: '/pptist',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/pptist/index'),
+        name: 'Pptist',
+        meta: {title: 'PPT编辑', icon: 'el-icon-edit'}
       }
     ]
   },
