@@ -43,3 +43,18 @@ export function updateProject(id, data) {
     data
   })
 }
+
+export function uploadFile(id, data) {
+  return request({
+    url: '/project/' + id + '/file',
+    method: 'post',
+    data
+  })
+}
+
+export function deleteFile(id, filename) {
+  return request({
+    url: '/project/' + id + '/file/'+filename,
+    method: 'delete',
+  })
+}
