@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getProject(id) {
   return request({
-    url: '/project?id=' + id,
+    url: '/project/' + id,
     method: 'get',
   })
 }
@@ -56,5 +56,12 @@ export function deleteFile(id, filename) {
   return request({
     url: '/project/' + id + '/file/'+filename,
     method: 'delete',
+  })
+}
+
+export function likeProject(id){
+  return request({
+    url: '/project/' + id + '/star',
+    method: 'post',
   })
 }

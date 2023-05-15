@@ -119,7 +119,7 @@ export default {
   border: 1px solid #ebebeb;
   border-radius: 4px;
   padding: 20px;
-  margin: 30px;
+  margin: 10px;
 }
 
 .project-card:hover {
