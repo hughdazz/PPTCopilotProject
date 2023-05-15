@@ -4,7 +4,10 @@
     class="outline-card">
     <div class="custom-tree-container">
       <div class="block" style="">
-        <p style="text-align: center">PPT Title</p>
+        <el-button type="primary" @click="editPPT" style="margin: 10px 10px;">编辑PPT
+        </el-button>
+        <p style="text-align: center;display: inline-block">PPT Title</p>
+
         <el-tree
           :data="data"
           node-key="id"
@@ -136,10 +139,32 @@ export default {
       topic: '',
       sponsor: '',
       loading: true,
-      outlineId: '',
+      catalog_id:0
     }
   },
   created() {
+    const is_debug = true
+    if(is_debug){
+      this.render_data = this.update_source_xml_data_to_render_data(this.source_xml_data)
+      this.dfs(this.render_data)
+      console.log(JSON.stringify(this.render_data, ' ', 2))
+
+      this.loading = false
+
+      this.data = this.render_data
+
+      const d = this.convert_tree_to_xml(this.render_data)
+
+      console.log(d)
+
+      this.catalog_id = 2
+
+
+
+      return
+    }
+
+
     // 获取路由参数
     this.topic = this.$route.query.topic
     this.sponsor = this.$route.query.sponsor
@@ -148,15 +173,15 @@ export default {
       'topic': this.topic, 'sponsor': this.sponsor
     }).then(res => {
       // 将\n替换为换行
-      res.data.Outline = res.data.Outline.replace(/\\n/g, '\n')
-      this.source_xml_data = res.data.Outline
+      console.log(res)
+      this.source_xml_data = res.data.Outline.replace(/\\n/g, '\n')
+      this.catalog_id = res.data.Id
       console.log(this.source_xml_data)
       this.loading = false
 
       this.dfs(this.data)
       // this.$set(this, this.data, this.data)
       console.log(JSON.stringify(this.data, ' ', 2))
-
 
       this.render_data = this.update_source_xml_data_to_render_data(this.source_xml_data)
       this.dfs(this.render_data)
@@ -181,10 +206,31 @@ export default {
 
   },
   methods: {
-    createPPT() {
-      // 跳转外部界面
-      let url='http://localhost:7777'
-      window.open(url + '?id=' + this.outlineId)
+    editPPT(){
+      window.location.href = 'http://localhost:9529?id='+this.catalog_id.toString()
+
+    },
+    convert_tree_to_xml (tree_data){
+      // 遍历data，获取label，递归遍历children
+      const root_slides_name = 'slides'
+      const slide_name = 'section'
+      const top_dom = document.createElement(root_slides_name)
+      console.log(tree_data[0])
+      const data = tree_data[0]
+      for(var i=0;i<data.children.length;i++){
+        // 在根节点下创建子节点
+        const child = document.createElement(slide_name)
+
+        for(var j =0 ;j<data.children[i].children.length;j++) {
+          const my_Element_dom = document.createElement('p')
+          my_Element_dom.innerTextnerHTML = data.children[i].children[j].label
+          child.appendChild(my_Element_dom)
+        }
+
+        top_dom.appendChild(child)
+      }
+      console.log(top_dom.outerHTML)
+      return top_dom.outerHTML
     },
     get_row(data, num_col) {
       const rows = []

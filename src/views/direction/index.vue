@@ -5,25 +5,13 @@
         <el-tag style="margin: 10px 10px;">{{ template_id | templateStatus }}</el-tag>
       </el-row>
       <el-row :gutter="20">
-        <el-input
-          v-model="topic"
-          placeholder="请输入主题"
-          style="width: 300px;margin: 10px 10px;"
-        />
+        <el-input v-model="topic" placeholder="请输入主题" style="width: 300px;margin: 10px 10px;" />
       </el-row>
       <el-row :gutter="20">
-        <el-input
-          v-model="sponsor"
-          placeholder="请输入汇报人"
-          style="width: 300px;margin: 10px 10px;"
-        />
+        <el-input v-model="sponsor" placeholder="请输入汇报人" style="width: 300px;margin: 10px 10px;" />
       </el-row>
       <el-row :gutter="20">
-        <el-button
-          type="primary"
-          @click="createPPT"
-          style="margin: 10px 10px;"
-        >创建PPT
+        <el-button type="primary" @click="createPPT" style="margin: 10px 10px;">创建PPT
         </el-button>
       </el-row>
       <h1>
@@ -33,19 +21,14 @@
         <el-row :gutter="20" class="template-row">
           <el-col v-for="(card, index) in paginatedCards" :key="index" :span="6">
             <el-card class="template-card">
-              <el-image :src="card.imageUrl" class="template-cover"/>
+              <el-image :src="card.imageUrl" class="template-cover" />
               <el-radio v-model="template_id" :label="card.id" class="template-title">{{ card.title }}</el-radio>
             </el-card>
           </el-col>
         </el-row>
         <div class="pagination-container">
-          <el-pagination
-            @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-size="pageSize"
-            :total="cards.length"
-            layout="prev, pager, next, jumper"
-          />
+          <el-pagination @current-change="handleCurrentChange" :current-page="currentPage" :page-size="pageSize"
+            :total="cards.length" layout="prev, pager, next, jumper" />
         </div>
       </div>
 
@@ -186,5 +169,4 @@ export default {
   display: flex;
   justify-content: center;
 }
-
 </style>
