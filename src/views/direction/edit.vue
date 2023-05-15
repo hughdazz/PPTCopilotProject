@@ -76,6 +76,8 @@
         </el-tree>
       </div>
     </div>
+
+    <el-button type="primary" @click="createPPT">创建PPT</el-button>
   </el-card>
 </template>
 <script>
@@ -427,12 +429,14 @@ export default {
   font-size: 14px;
   padding-right: 8px;
 }
-.delete_button{
+
+.delete_button {
   background-color: white;
-  color:red;
+  color: red;
 }
-.confirm_button{
+
+.confirm_button {
   background-color: white;
-  color:green;
+  color: green;
 }
 </style>
