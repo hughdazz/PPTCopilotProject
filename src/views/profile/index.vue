@@ -10,6 +10,9 @@
         <el-col :span="18" :xs="24">
           <el-card>
             <el-tabs v-model="activeTab">
+              <el-tab-pane label="我的项目" name="我的项目">
+                <Project />
+              </el-tab-pane>
               <el-tab-pane label="Activity" name="activity">
                 <activity />
               </el-tab-pane>
@@ -34,14 +37,15 @@ import UserCard from './components/UserCard'
 import Activity from './components/Activity'
 import Timeline from './components/Timeline'
 import Account from './components/Account'
+import Project from '@/views/project/index.vue'
 
 export default {
   name: 'Profile',
-  components: { UserCard, Activity, Timeline, Account },
+  components: { UserCard, Activity, Timeline, Account,Project },
   data() {
     return {
       user: {},
-      activeTab: 'activity'
+      activeTab: '我的项目'
     }
   },
   computed: {
