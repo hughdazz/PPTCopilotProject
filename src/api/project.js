@@ -7,9 +7,9 @@ export function getProject(id) {
   })
 }
 
-export function getProjectList() {
+export function getProjectList(id) {
   return request({
-    url: '/project',
+    url: '/user/'+id+'/project',
     method: 'get',
   })
 }
@@ -59,6 +59,13 @@ export function deleteFile(id, filename) {
   })
 }
 
+export function checkLikePorject(id) {
+  return request({
+    url: '/project/' + id + '/star',
+    method: 'get',
+  })
+}
+
 export function likeProject(id){
   return request({
     url: '/project/' + id + '/star',
@@ -66,9 +73,23 @@ export function likeProject(id){
   })
 }
 
+export function unlikeProject(id){
+  return request({
+    url: '/project/' + id + '/star',
+    method: 'delete',
+  })
+}
+
 export function cloneProject(id) {
   return request({
     url: '/project/' + id,
     method: 'post',
+  })
+}
+
+export function getLikedProjects(id) {
+  return request({
+    url: '/user/' + id + '/favorite',
+    method: 'get',
   })
 }

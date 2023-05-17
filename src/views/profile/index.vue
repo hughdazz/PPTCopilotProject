@@ -10,8 +10,8 @@
         <el-col :span="18" :xs="24">
           <el-card>
             <el-tabs v-model="activeTab">
-              <el-tab-pane label="我的项目" name="我的项目">
-                <Project />
+              <el-tab-pane label="用户收藏" name="用户收藏">
+                <ProjectList :project-list="this.projectList" :edit = "false"></ProjectList>
               </el-tab-pane>
               <el-tab-pane label="Activity" name="activity">
                 <activity />
@@ -37,23 +37,31 @@ import UserCard from './components/UserCard'
 import Activity from './components/Activity'
 import Timeline from './components/Timeline'
 import Account from './components/Account'
-import Project from '@/views/project/index.vue'
+import ProjectList from "@/views/project/components/ProjectList/index.vue"
+
+import { getLikedProjects } from "@/api/project";
 
 export default {
+
   name: 'Profile',
-  components: { UserCard, Activity, Timeline, Account,Project },
+  components: { UserCard, Activity, Timeline, Account, ProjectList },
   data() {
     return {
       user: {},
-      activeTab: '我的项目'
+      activeTab: '用户收藏',
+      projectList: [],
     }
   },
   computed: {
     ...mapGetters([
+      'id',
       'name',
       'avatar',
       'email'
     ])
+  },
+  mounted() {
+    this.loadData();
   },
   created() {
     this.getUser()
@@ -65,6 +73,12 @@ export default {
         email: this.email,
         avatar: this.avatar
       }
+    },
+    loadData() {
+      getLikedProjects(this.id).then(response => {
+        console.log(response);
+        this.projectList = response.data;
+      })
     }
   }
 }
