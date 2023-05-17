@@ -220,7 +220,7 @@ export default {
     },
     checklikepro() {
       checkLikePorject(this.id).then(response => {
-        this.liked = response.data.liked
+        this.liked = response.data
       })
     }
   }
