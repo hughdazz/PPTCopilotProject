@@ -4,7 +4,10 @@
     class="outline-card">
     <div class="custom-tree-container">
       <div class="block" style="">
-        <p style="text-align: center">PPT Title</p>
+        <el-button type="primary" @click="editPPT" style="margin: 10px 10px;">编辑PPT
+        </el-button>
+        <p style="text-align: center;display: inline-block">PPT Title</p>
+
         <el-tree
           :data="data"
           node-key="id"
@@ -140,6 +143,28 @@ export default {
     }
   },
   created() {
+    const is_debug = true
+    if(is_debug){
+      this.render_data = this.update_source_xml_data_to_render_data(this.source_xml_data)
+      this.dfs(this.render_data)
+      console.log(JSON.stringify(this.render_data, ' ', 2))
+
+      this.loading = false
+
+      this.data = this.render_data
+
+      const d = this.convert_tree_to_xml(this.render_data)
+
+      console.log(d)
+
+      this.catalog_id = 2
+
+
+
+      return
+    }
+
+
     // 获取路由参数
     this.topic = this.$route.query.topic
     this.sponsor = this.$route.query.sponsor
@@ -156,7 +181,6 @@ export default {
       this.dfs(this.data)
       // this.$set(this, this.data, this.data)
       console.log(JSON.stringify(this.data, ' ', 2))
-
 
       this.render_data = this.update_source_xml_data_to_render_data(this.source_xml_data)
       this.dfs(this.render_data)
