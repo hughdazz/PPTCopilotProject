@@ -8,9 +8,12 @@
 </template>
 
 <script>
-// alert(Cookies.get("token")
 
+import {getStaticFile, saveStaticFile} from "@/api/project";
+import axios from 'axios';
+import request from "@/utils/request";
 export default {
+  props: ['project_id', 'file_name'], // 接收父组件传递的参数
   data() {
     return {}
   },
@@ -19,14 +22,30 @@ export default {
   },
   methods: {
     handleIframeLoad() {
-      console.log("father0:" + JSON.stringify(document.cookie))
+      // 导入选定文件
       let matches = document.cookie.match(/token=([^;]+)/);
-      console.log("father1:" + JSON.stringify(matches))
       let token = (matches ? matches[1] : null);
-      var iframe = document.getElementById('pptist-frame');
-      var iframeWindow = iframe.contentWindow;
-      iframeWindow.postMessage(token, 'http://localhost:7777');
-      console.log("father2: " + token)
+      const iframe = document.getElementById('pptist-frame');
+      const iframeWindow = iframe.contentWindow;
+      const projectId = this.project_id === undefined ? 1 : this.project_id;
+      const fileName = this.file_name === undefined ? 'test.pptist' : this.file_name;
+      getStaticFile(projectId, fileName).then(res => {
+        // print length
+        iframeWindow.postMessage(res, 'http://localhost:7777');
+      });
+
+      window.addEventListener('message', function(event) {
+        if (event.origin !== 'http://localhost:7777') return
+        const blobStr = event.data;
+        console.log(JSON.stringify(event))
+        const blob = new Blob([blobStr], {type: '*'});
+        console.log("template length: " + blobStr.length)
+        saveStaticFile(projectId, fileName, blob).then(res => {
+          console.log('template 9529: save success')
+        }).catch(err => {
+          console.log(err);
+        });
+      });
     }
   }
 }
