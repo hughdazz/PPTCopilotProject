@@ -5,7 +5,12 @@
         <div class="project-container">
           <div class="project-header">
             <h2>项目文件</h2>
-            <el-button type="primary" @click="handleCreate">上传文件</el-button>
+            <div v-if = "this.name === this.username">
+              <el-button type="primary" @click="handleCreate">上传文件</el-button>
+            </div>
+            <div v-else>
+              <el-button type="primary" @click="cloneProject">克隆项目</el-button>
+            </div>
           </div>
         </div>
 
@@ -25,41 +30,45 @@
     <el-col :span="6">
       <el-card>
         <div class="project-container">
-          <el-col :span="20">
-            <h2>{{ this.name }}</h2>
+          <el-row>
+            <el-col :span="20">
+              <h2>{{ this.projectName }}</h2>
 
-          </el-col>
-          <el-col :span="4">
-            <h4>
-              <el-button type="primary" @click="likeProject">收藏</el-button>
-            </h4>
-          </el-col>
-          <h3>
-            已被收藏{{ this.star }}次
-          </h3>
+            </el-col>
+            <el-col :span="4">
+              <h4>
+                <el-button type="primary" @click="likeProject">收藏</el-button>
+              </h4>
+            </el-col>
+            <el-col span="24">
+              <h3>
+                已被收藏{{ this.star }}次</h3>
+            </el-col>
+          </el-row>
         </div>
 
         <div class="project-container">
-          <h3>项目信息</h3>
-          <h4>作者：</h4>
-          <h4>
+          <el-row>
+            <h3>项目信息</h3>
+            <h4>作者：</h4>
+            <h4>
+              <el-row>
+                <el-col :span="8">
+                  <img
+                    src="https://user-images.githubusercontent.com/91320586/236814430-708d8c48-f9a0-49e2-94f6-b25f33a03af8.png">
+                </el-col>
+                <el-col :span="16">
+                  <h2>{{ this.username }}</h2>
+                </el-col>
+              </el-row>
+            </h4>
             <el-row>
-              <el-col :span="8">
-                <img
-                  src="https://user-images.githubusercontent.com/91320586/236814430-708d8c48-f9a0-49e2-94f6-b25f33a03af8.png">
-              </el-col>
-              <el-col :span="16">
-                <h2>{{ this.username }}</h2>
+              <el-col :span="24">
+                <h4>修改时间：{{ this.ProUpdated }}</h4>
               </el-col>
             </el-row>
-          </h4>
-          <el-row>
-            <el-col :span="24">
-              <h4>修改时间：{{ this.ProUpdated }}</h4>
-            </el-col>
+            <h4>描述：{{ this.description }}</h4>
           </el-row>
-          <h4>描述：{{ this.description }}</h4>
-
         </div>
       </el-card>
     </el-col>
@@ -69,7 +78,8 @@
 <script>
 import axios from 'axios'
 import FileRow from '@/views/project/components/FileCard/index.vue';
-import {getFile, uploadFile, deleteFile, getProject, likeProject} from "@/api/project"
+import {getFile, uploadFile, deleteFile, getProject, likeProject,cloneProject} from "@/api/project"
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -79,11 +89,12 @@ export default {
     return {
       id: this.$route.params.id,
       files: [],
-      name: "我的项目",
+      projectName: "我的项目",
       star: "0",
       ProUpdated: "2020-01-01",
       username: "",
-      description: ""
+      description: "",
+      mine: false
     }
   },
   mounted() {
@@ -91,10 +102,15 @@ export default {
     this.getProjectFiles(this.id)
     this.getProjectInfo()
   },
+  computed: {
+    ...mapGetters([
+      'name',
+    ])
+  },
   methods: {
     getProjectInfo() {
       getProject(this.id).then(response => {
-        this.name = response.data.Name
+        this.projectName = response.data.Name
         this.star = response.data.Star
         this.ProUpdated = response.data.Updated
         this.username = response.data.Creator.Username
@@ -149,6 +165,21 @@ export default {
           this.$message({
             type: 'error',
             message: '收藏项目失败'
+          })
+        })
+    },
+    cloneProject() {
+      // 实现克隆项目的逻辑
+      cloneProject(this.id).then(response => {
+        this.$message({
+          type: 'success',
+          message: '克隆项目成功'
+        })
+      })
+        .catch(error => {
+          this.$message({
+            type: 'error',
+            message: '克隆项目失败'
           })
         })
     }

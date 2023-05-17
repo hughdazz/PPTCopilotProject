@@ -65,3 +65,10 @@ export function likeProject(id){
     method: 'post',
   })
 }
+
+export function cloneProject(id) {
+  return request({
+    url: '/project/' + id,
+    method: 'post',
+  })
+}
