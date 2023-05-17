@@ -7,15 +7,13 @@
     <p>{{ Updated }}</p>
     <div class="project-actions">
       <el-button type="primary" @click="openFile">打开</el-button>
-      <div v-if="edit">
-        <el-dropdown @command="handleCommand">
-          <i class="el-icon-more"></i>
-          <el-dropdown-menu>
-            <el-dropdown-item command="rename">重命名</el-dropdown-item>
-            <el-dropdown-item command="delete">删除</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
-      </div>
+      <el-dropdown @command="handleCommand">
+        <i class="el-icon-more"></i>
+        <el-dropdown-menu>
+          <el-dropdown-item command="rename">重命名</el-dropdown-item>
+          <el-dropdown-item command="delete">删除</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
     </div>
   </div>
 </template>
@@ -48,10 +46,6 @@ export default {
     handleRename: {
       type: Function,
       required: true
-    },
-    edit:{
-      type: Boolean,
-      default: true
     }
   },
   methods: {
@@ -59,9 +53,9 @@ export default {
       // 处理点击事件
       this.$message.error('ok')
     },
-    openFile() {
+    openFile(){
       console.log(1)
-      this.$router.push({path: '/project/' + this.id + '/file'})
+      this.$router.push({path: '/project/' + this.id+'/file'})
     },
     handleCommand(command) {
       switch (command) {
