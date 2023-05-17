@@ -5,7 +5,7 @@
         <div class="project-container">
           <div class="project-header">
             <h2>项目文件</h2>
-            <div v-if = "this.name === this.username">
+            <div v-if="this.name === this.username">
               <el-button type="primary" @click="handleCreate">上传文件</el-button>
             </div>
             <div v-else>
@@ -31,14 +31,21 @@
       <el-card>
         <div class="project-container">
           <el-row>
-            <el-col :span="20">
+            <el-col :span="18">
               <h2>{{ this.projectName }}</h2>
 
             </el-col>
-            <el-col :span="4">
-              <h4>
-                <el-button type="primary" @click="likeProject">收藏</el-button>
-              </h4>
+            <el-col :span="6">
+              <div v-if="this.liked">
+                <h4>
+                  <el-button type="primary" @click="unlikeProject">取消收藏</el-button>
+                </h4>
+              </div>
+              <div v-else>
+                <h4>
+                  <el-button type="primary" @click="likeProject">收藏</el-button>
+                </h4>
+              </div>
             </el-col>
             <el-col span="24">
               <h3>
@@ -76,10 +83,18 @@
 </template>
 
 <script>
-import axios from 'axios'
 import FileRow from '@/views/project/components/FileCard/index.vue';
-import {getFile, uploadFile, deleteFile, getProject, likeProject,cloneProject} from "@/api/project"
-import { mapGetters } from 'vuex'
+import {
+  getFile,
+  uploadFile,
+  deleteFile,
+  getProject,
+  likeProject,
+  cloneProject,
+  unlikeProject,
+  checkLikePorject
+} from "@/api/project"
+import {mapGetters} from 'vuex'
 
 export default {
   components: {
@@ -94,13 +109,15 @@ export default {
       ProUpdated: "2020-01-01",
       username: "",
       description: "",
-      mine: false
+      mine: false,
+      liked: false,
     }
   },
   mounted() {
     this.id = this.$route.params.id;
-    this.getProjectFiles(this.id)
-    this.getProjectInfo()
+    this.getProjectFiles(this.id);
+    this.getProjectInfo();
+    this.checklikepro();
   },
   computed: {
     ...mapGetters([
@@ -159,6 +176,7 @@ export default {
           type: 'success',
           message: '收藏项目成功'
         })
+        this.checklikepro()
         this.getProjectInfo()
       })
         .catch(error => {
@@ -182,6 +200,28 @@ export default {
             message: '克隆项目失败'
           })
         })
+    },
+    unlikeProject() {
+      // 实现取消收藏项目的逻辑
+      unlikeProject(this.id).then(response => {
+        this.$message({
+          type: 'success',
+          message: '取消收藏项目成功'
+        })
+        this.checklikepro()
+        this.getProjectInfo()
+      })
+        .catch(error => {
+          this.$message({
+            type: 'error',
+            message: '取消收藏项目失败'
+          })
+        })
+    },
+    checklikepro() {
+      checkLikePorject(this.id).then(response => {
+        this.liked = response.data.liked
+      })
     }
   }
 }
