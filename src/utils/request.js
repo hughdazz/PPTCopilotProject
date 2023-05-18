@@ -35,6 +35,10 @@ service.interceptors.response.use(
 
   response => {
     const res = response.data
+    const contentType = response.headers['content-type']
+    if(contentType.includes('text/plain')){ // beego: serveFile, not json
+      return res
+    }
 
     if (res.code !== 0) {
       Message({
