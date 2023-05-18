@@ -124,6 +124,8 @@ export default {
         this.$router.push({
           path: '/direction/edit',
           query: {
+            project_id: this.$route.query.project_id,
+            file_name: this.$route.query.file_name,
             topic: this.topic,
             sponsor: this.sponsor,
             template_id: this.template_id
