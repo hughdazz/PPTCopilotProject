@@ -19,7 +19,7 @@ export function getInfo(token) {
 export function logout() {
   return request({
     url: '/logout',
-    method: 'post'
+    method: 'delete'
   })
 }
 
@@ -30,3 +30,4 @@ export function register(data) {
     data
   })
 }
+

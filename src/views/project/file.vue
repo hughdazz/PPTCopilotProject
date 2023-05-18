@@ -2,7 +2,7 @@
   <div class="project-container">
     <el-col :span="18">
       <el-card class="box-card">
-        <div class="project-container">
+        <div class="project-info-container">
           <div class="project-header">
             <h2>项目文件</h2>
             <div v-if="this.name === this.username">
@@ -41,13 +41,13 @@
     </el-col>
     <el-col :span="6">
       <el-card>
-        <div class="project-container">
+        <div class="project-info-container">
           <el-row>
-            <el-col :span="18">
+            <el-col :span="14">
               <h2>{{ this.projectName }}</h2>
 
             </el-col>
-            <el-col :span="6">
+            <el-col :span="10">
               <div v-if="this.liked">
                 <h4>
                   <el-button type="primary" @click="unlikeProject">取消收藏</el-button>
@@ -66,7 +66,7 @@
           </el-row>
         </div>
 
-        <div class="project-container">
+        <div class="project-info-container">
           <el-row>
             <h3>项目信息</h3>
             <h4>作者：</h4>
@@ -255,10 +255,6 @@ export default {
 </script>
 
 <style scoped>
-.project-container {
-  padding: 20px;
-}
-
 .project-header {
   display: flex;
   justify-content: space-between;
