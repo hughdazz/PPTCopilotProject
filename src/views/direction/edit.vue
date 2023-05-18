@@ -76,6 +76,8 @@
         </el-tree>
       </div>
     </div>
+
+    <el-button type="primary" @click="createPPT">创建PPT</el-button>
   </el-card>
 </template>
 <script>
@@ -137,7 +139,7 @@ export default {
       topic: '',
       sponsor: '',
       loading: true,
-      catalog_id:0
+      outlineId: '',
     }
   },
   created() {
@@ -171,9 +173,8 @@ export default {
       'topic': this.topic, 'sponsor': this.sponsor
     }).then(res => {
       // 将\n替换为换行
-      console.log(res)
-      this.source_xml_data = res.data.Outline.replace(/\\n/g, '\n')
-      this.catalog_id = res.data.Id
+      res.data.Outline = res.data.Outline.replace(/\\n/g, '\n')
+      this.source_xml_data = res.data.Outline
       console.log(this.source_xml_data)
       this.loading = false
 
@@ -204,31 +205,10 @@ export default {
 
   },
   methods: {
-    editPPT(){
-      window.location.href = 'http://localhost:9529?id='+this.catalog_id.toString()
-
-    },
-    convert_tree_to_xml (tree_data){
-      // 遍历data，获取label，递归遍历children
-      const root_slides_name = 'slides'
-      const slide_name = 'section'
-      const top_dom = document.createElement(root_slides_name)
-      console.log(tree_data[0])
-      const data = tree_data[0]
-      for(var i=0;i<data.children.length;i++){
-        // 在根节点下创建子节点
-        const child = document.createElement(slide_name)
-
-        for(var j =0 ;j<data.children[i].children.length;j++) {
-          const my_Element_dom = document.createElement('p')
-          my_Element_dom.innerTextnerHTML = data.children[i].children[j].label
-          child.appendChild(my_Element_dom)
-        }
-
-        top_dom.appendChild(child)
-      }
-      console.log(top_dom.outerHTML)
-      return top_dom.outerHTML
+    createPPT() {
+      // 跳转外部界面
+      let url='http://localhost:7777'
+      window.open(url + '?id=' + this.outlineId)
     },
     get_row(data, num_col) {
       const rows = []
@@ -427,12 +407,14 @@ export default {
   font-size: 14px;
   padding-right: 8px;
 }
-.delete_button{
+
+.delete_button {
   background-color: white;
-  color:red;
+  color: red;
 }
-.confirm_button{
+
+.confirm_button {
   background-color: white;
-  color:green;
+  color: green;
 }
 </style>
