@@ -1,8 +1,8 @@
 <template>
   <div class="project-table">
     <el-card v-for="project in projects" :key="project.Id" class="project-card" shadow="hover">
-      <div slot="header" class="project-card-header">{{ project.Name }}</div>
-      <div class="project-card-body">
+      <div slot="header" class="project-card-header" @click="redirectToProject(project.Id)">{{ project.Name }}</div>
+      <div class="project-card-body" @click="redirectToProject(project.Id)">
         <p class="project-card-description">描述：{{ project.Description }}</p>
         <p class="project-card-created">{{ project.Created }}</p>
         <p class="project-card-updated">上次更新：{{ project.Updated }}</p>
@@ -20,6 +20,11 @@ export default {
       default: () => [],
     },
   },
+  methods:{
+    redirectToProject(id) {
+      this.$router.push({path: '/project/' + id + '/file'})
+    },
+  }
 }
 </script>
 

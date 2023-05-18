@@ -6,6 +6,18 @@
           <div class="project-header">
             <h2>项目文件</h2>
             <div v-if="this.name === this.username">
+              <el-button type="primary" @click="dialogFormVisible = true" style = "margin-right: 10px">新建PPT文件</el-button>
+              <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
+                <el-form :model="form">
+                  <el-form-item label="Promotion name" :label-width="formLabelWidth">
+                    <el-input v-model="form.name" autocomplete="off"></el-input>
+                  </el-form-item>
+                </el-form>
+                <span slot="footer" class="dialog-footer">
+                  <el-button @click="dialogFormVisible = false">Cancel</el-button>
+                  <el-button type="primary" @click="goto_direction">Confirm</el-button>
+                </span>
+              </el-dialog>
               <el-button type="primary" @click="handleCreate">上传文件</el-button>
             </div>
             <div v-else>
@@ -80,6 +92,7 @@
       </el-card>
     </el-col>
   </div>
+
 </template>
 
 <script>
@@ -111,6 +124,10 @@ export default {
       description: "",
       mine: false,
       liked: false,
+      dialogFormVisible: false,
+      form : {
+        name: '',
+      },
     }
   },
   mounted() {
@@ -125,6 +142,16 @@ export default {
     ])
   },
   methods: {
+    goto_direction() {
+      this.dialogFormVisible = false
+      this.$router.push({
+        path: '/direction/index',
+        query: {
+          project_id: this.project_id,
+          file_name: this.form.name,
+        }
+      });
+    },
     getProjectInfo() {
       getProject(this.id).then(response => {
         this.projectName = response.data.Name
