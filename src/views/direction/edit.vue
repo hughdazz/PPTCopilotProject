@@ -80,6 +80,7 @@
 <script>
 
 import {genOutline, gen_ppt} from "@/api/gpt";
+import {Loading} from "element-ui";
 
 let id = 1000
 let tab_id = 0
@@ -183,12 +184,15 @@ export default {
     {
       // window.location.href = 'http://localhost:9529/pptist/index?id='+this.catalog_id.toString()
       // window.location.href = 'http://localhost:9529/pptist/index?pid=...&filename=xxx
+
+      const loadingInstance = Loading.service()
       gen_ppt({
         'outline_id': this.outline_id,
         'template_id': this.$route.query.template_id,
         'project_id': this.$route.query.project_id,
         'file_name': this.$route.query.file_name,
       }).then(res => {
+        loadingInstance.close()
         console.log(res)
         this.$router.push({
           path: '/pptist/index',
@@ -198,6 +202,7 @@ export default {
           }
         })
       }).catch(err => {
+        loadingInstance.close()
         console.log(err)
       })
     },
