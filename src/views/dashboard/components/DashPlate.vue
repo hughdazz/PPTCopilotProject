@@ -5,7 +5,11 @@
       <h1>Welcome to PPTCopilot</h1>
       <p>Experience the future of PPT creation with AI assistance</p>
     </div>
+    <div class="container">
+      <el-button type="primary" style="margin-top: 20px;margin-bottom: 20px" @click="jumpProject">立即使用</el-button>
+    </div>
     <div class="dash-plate-content">
+
       <div
         v-for="(feature, index) in features"
         :key="index"
@@ -80,6 +84,9 @@ export default {
         this.$set(this.isVisible, index, entry.isIntersecting);
       });
     },
+    jumpProject(){
+      this.$router.push('/project/index')
+    }
   },
   mounted() {
     this.isVisible = this.features.map(() => false);
@@ -98,6 +105,7 @@ export default {
     });
     this.observer.disconnect();
   },
+
 };
 </script>
 
@@ -115,7 +123,7 @@ export default {
   align-items: center;
 
   .logo {
-    width: 150px; // 将宽度从 80px 修改为 60px
+    width: 300px; // 将宽度从 80px 修改为 60px
     height: auto;
     //margin-bottom: 20px;
   }
@@ -128,6 +136,10 @@ export default {
   p {
     font-size: 24px;
     color: #777;
+  }
+
+  img {
+    margin: 50px;
   }
 }
 
@@ -166,5 +178,11 @@ export default {
       color: #666;
     }
   }
+
+
 }
+.container {
+   display: flex;
+   justify-content: center;
+ }
 </style>

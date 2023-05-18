@@ -1,5 +1,5 @@
 <template>
-  <div class="project-container">
+  <div class="project-index-container">
     <el-card class="box-card">
       <div slot="header" class="clearfix">
         <el-row>
@@ -77,5 +77,9 @@ export default {
   color: white;
   margin-bottom: 10px;
   float: right;
+}
+.project-index-container{
+  margin-left: 200px;
+  margin-right: 200px;
 }
 </style>
