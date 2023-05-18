@@ -36,8 +36,8 @@ service.interceptors.response.use(
   response => {
     const res = response.data
     const contentType = response.headers['content-type']
-    if(contentType.includes('text/plain')){ // beego: serveFile, not json
-      return res
+    if(res.code === undefined) { // 文件
+      return res;
     }
 
     if (res.code !== 0) {
