@@ -4,8 +4,6 @@
     class="outline-card">
     <div class="custom-tree-container">
       <div class="block" style="">
-        <el-button type="primary" @click="editPPT" style="margin: 10px 10px;">编辑PPT
-        </el-button>
         <p style="text-align: center;display: inline-block">PPT Title</p>
 
         <el-tree
@@ -76,13 +74,12 @@
         </el-tree>
       </div>
     </div>
-
     <el-button type="primary" @click="createPPT">创建PPT</el-button>
   </el-card>
 </template>
 <script>
 
-import {genOutline} from "@/api/gpt";
+import {genOutline, gen_ppt} from "@/api/gpt";
 
 let id = 1000
 let tab_id = 0
@@ -126,20 +123,13 @@ export default {
 </slides>
 `
     return {
-      activeName: 'first',
-      outline_ls: null,
       render_data,
       data: JSON.parse(JSON.stringify(render_data)),
       source_xml_data,
-      ppt_template_ls: [],
-      ppt_template_rows_ls: [],
-      presenter_name: '',
-      ppt_topic: ' ',
-      tab_index: 'tab' + tab_id,
       topic: '',
       sponsor: '',
       loading: true,
-      outlineId: '',
+      outline_id:0
     }
   },
   created() {
@@ -157,13 +147,10 @@ export default {
 
       console.log(d)
 
-      this.catalog_id = 2
-
-
+      this.outline_id = 2
 
       return
     }
-
 
     // 获取路由参数
     this.topic = this.$route.query.topic
@@ -173,13 +160,11 @@ export default {
       'topic': this.topic, 'sponsor': this.sponsor
     }).then(res => {
       // 将\n替换为换行
-      res.data.Outline = res.data.Outline.replace(/\\n/g, '\n')
-      this.source_xml_data = res.data.Outline
+      console.log(res)
+      this.source_xml_data = res.data.Outline.replace(/\\n/g, '\n')
+      this.outline_id = res.data.Id
       console.log(this.source_xml_data)
-      this.loading = false
 
-      this.dfs(this.data)
-      // this.$set(this, this.data, this.data)
       console.log(JSON.stringify(this.data, ' ', 2))
 
       this.render_data = this.update_source_xml_data_to_render_data(this.source_xml_data)
@@ -188,39 +173,55 @@ export default {
 
       this.data = this.render_data
 
-      for (let i = 0; i < 13; i++) {
-        this.ppt_template_ls.push({
-          'name': i,
-          'love': '小唐'
-        })
-      }
-
-      this.ppt_template_rows_ls = this.get_row(this.ppt_template_ls, 3)
-
-      console.log(JSON.stringify(this.ppt_template_rows_ls, ' ', 2))
+      this.loading = false
     }).catch(err => {
       console.log(err)
     })
-
-
   },
   methods: {
-    createPPT() {
-      // 跳转外部界面
-      let url='http://localhost:7777'
-      window.open(url + '?id=' + this.outlineId)
+    createPPT()
+    {
+      // window.location.href = 'http://localhost:9529/pptist/index?id='+this.catalog_id.toString()
+      // window.location.href = 'http://localhost:9529/pptist/index?pid=...&filename=xxx
+      gen_ppt({
+        'outline_id': this.outline_id,
+        'template_id': this.$route.query.template_id,
+        'project_id': this.$route.query.project_id,
+        'file_name': this.$route.query.file_name,
+      }).then(res => {
+        console.log(res)
+        this.$router.push({
+          path: '/pptist/index',
+          query: {
+            project_id: this.$route.query.project_id,
+            file_name: this.$route.query.file_name,
+          }
+        })
+      }).catch(err => {
+        console.log(err)
+      })
     },
-    get_row(data, num_col) {
-      const rows = []
-      let temp = []
-      for (let i = 0; i < data.length; i++) {
-        temp.push(data[i])
-        if ((i + 1) % num_col === 0 || i === data.length - 1) {
-          rows.push(temp)
-          temp = []
+    convert_tree_to_xml (tree_data){
+      // 遍历data，获取label，递归遍历children
+      const root_slides_name = 'slides'
+      const slide_name = 'section'
+      const top_dom = document.createElement(root_slides_name)
+      console.log(tree_data[0])
+      const data = tree_data[0]
+      for(var i=0;i<data.children.length;i++){
+        // 在根节点下创建子节点
+        const child = document.createElement(slide_name)
+
+        for(var j =0 ;j<data.children[i].children.length;j++) {
+          const my_Element_dom = document.createElement('p')
+          my_Element_dom.innerTextnerHTML = data.children[i].children[j].label
+          child.appendChild(my_Element_dom)
         }
+
+        top_dom.appendChild(child)
       }
-      return rows
+      console.log(top_dom.outerHTML)
+      return top_dom.outerHTML
     },
     allowDrop(draggingNode, dropNode, type) {
       if (dropNode.data.label === 'Level two 3-1') {
@@ -314,26 +315,6 @@ export default {
     handleClick(tab, event) {
       console.log(tab, event)
     },
-    changeText(element, text) {
-      // 功能：替换一个元素中的文本
-      // 前提：保证一个元素中只有一个文本
-      // 实现：dfs遍历
-
-      // 遍历所有子节点
-      for (let i = 0; i < element.childNodes.length; i++) {
-        const childNode = element.childNodes[i]
-        // 如果是文本节点（nodeType为3）
-        if (childNode.nodeType === 3) {
-          // 使用回调函数处理文本内容
-          // console.log('before', childNode.nodeValue)
-          childNode.nodeValue = text
-          // console.log('after', childNode.nodeValue)
-        } else {
-          // 如果是元素节点，递归处理子节点
-          this.changeText(childNode, text)
-        }
-      }
-    },
     update_source_xml_data_to_render_data(xml) {
       // 功能：将xml转换为前端能渲染的json
       // 参数：gpt返回的xml大纲
@@ -354,7 +335,6 @@ export default {
           id: id++,
           label: 'Slides',
           children: []
-
         })
 
         top_dom.querySelectorAll('section').forEach((slide) => {

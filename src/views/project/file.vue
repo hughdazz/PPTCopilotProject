@@ -4,7 +4,22 @@
       <div class="project-container">
         <div class="project-header">
           <h2>项目文件</h2>
-          <el-button type="primary" @click="handleCreate">上传文件</el-button>
+          <el-button type="primary" @click="dialogFormVisible = true">新建PPT文件</el-button>
+
+          <el-dialog title="Shipping address" :visible.sync="dialogFormVisible">
+            <el-form :model="form">
+              <el-form-item label="Promotion name" :label-width="formLabelWidth">
+                <el-input v-model="form.name" autocomplete="off"></el-input>
+              </el-form-item>
+            </el-form>
+            <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogFormVisible = false">Cancel</el-button>
+    <el-button type="primary" @click="goto_direction">Confirm</el-button>
+  </span>
+          </el-dialog>
+
+          <el-button type="primary" @click="handleCreatePPT">上传资源文件</el-button>
+
         </div>
       </div>
     <div v-for="file in files" :key="file.Id" class="file-item">
@@ -26,14 +41,20 @@
 import axios from 'axios'
 import FileRow from '@/views/project/components/FileCard/index.vue';
 import { getFile,uploadFile,deleteFile } from "@/api/project"
+
 export default {
   components: {
     FileRow
   },
   data() {
     return {
+      form : {
+        name: '',
+      },
       id : this.$route.params.id,
-      files: []
+      files: [],
+      dialogFormVisible : false,
+      project_id : 0
     }
   },
   mounted() {
@@ -41,6 +62,16 @@ export default {
     this.getProjectFiles(this.id)
   },
   methods: {
+    goto_direction(){
+      this.dialogFormVisible = false
+      this.$router.push({
+        path: '/direction/index',
+        query: {
+          project_id: this.project_id,
+          file_name: this.form.name,
+        }
+      });
+    },
     getProjectFiles(id) {
       getFile(id).then(response => {
         this.files = response.data
