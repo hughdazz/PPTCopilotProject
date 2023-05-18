@@ -58,3 +58,21 @@ export function deleteFile(id, filename) {
     method: 'delete',
   })
 }
+
+export function getStaticFile(projectId, fileName) {
+  return request({
+    url: '/_static/project/' + projectId + '/' + fileName,
+    method: 'get',
+  })
+}
+
+export function saveStaticFile(projectId, fileName, fileBlob) {
+  return request({
+    url: '/_static/project/' + projectId + '/' + fileName,
+    method: 'post',
+    data: fileBlob,
+    headers: {
+      'Content-Type': 'plain/text'
+    }
+  });
+}
