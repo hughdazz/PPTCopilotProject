@@ -255,14 +255,6 @@ export default {
 </script>
 
 <style scoped>
-.project-container {
-  padding: 20px;
-  margin-left: 100px;
-  margin-right: 100px;
-}
-.project-info-container{
-  padding: 20px;
-}
 .project-header {
   display: flex;
   justify-content: space-between;
