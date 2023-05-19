@@ -12,7 +12,7 @@
           class="user-avatar">
       </div>
       <button class="nav-button" @click="handlegotoProjects">我的项目</button>
-      <button class="nav-button" @click.native="logout"><span style="display:block;">登出</span></button>
+      <button class="nav-button" @click.native="logout">登出</button>
 
     </div>
   </div>
