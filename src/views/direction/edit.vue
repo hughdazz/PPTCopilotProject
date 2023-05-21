@@ -134,24 +134,24 @@ export default {
     }
   },
   created() {
-    const is_debug = true
-    if(is_debug){
-      this.render_data = this.update_source_xml_data_to_render_data(this.source_xml_data)
-      this.dfs(this.render_data)
-      console.log(JSON.stringify(this.render_data, ' ', 2))
-
-      this.loading = false
-
-      this.data = this.render_data
-
-      const d = this.convert_tree_to_xml(this.render_data)
-
-      console.log(d)
-
-      this.outline_id = 2
-
-      return
-    }
+    // const is_debug = false
+    // if(is_debug){
+    //   this.render_data = this.update_source_xml_data_to_render_data(this.source_xml_data)
+    //   this.dfs(this.render_data)
+    //   console.log(JSON.stringify(this.render_data, ' ', 2))
+    //
+    //   this.loading = false
+    //
+    //   this.data = this.render_data
+    //
+    //   const d = this.convert_tree_to_xml(this.render_data)
+    //
+    //   console.log(d)
+    //
+    //   this.outline_id = 2
+    //
+    //   return
+    // }
 
     // 获取路由参数
     this.topic = this.$route.query.topic
@@ -187,9 +187,9 @@ export default {
 
       const loadingInstance = Loading.service()
       gen_ppt({
-        'outline_id': this.outline_id,
-        'template_id': this.$route.query.template_id,
-        'project_id': this.$route.query.project_id,
+        'outline_id': parseInt(this.outline_id),
+        'template_id': parseInt(this.$route.query.template_id),
+        'project_id': parseInt(this.$route.query.project_id),
         'file_name': this.$route.query.file_name,
       }).then(res => {
         loadingInstance.close()
