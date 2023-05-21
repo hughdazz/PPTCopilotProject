@@ -1,46 +1,33 @@
 <template>
   <div class="navbar">
-    <hamburger :is-active="sidebar.opened" class="hamburger-container" @toggleClick="toggleSideBar" />
-
-    <breadcrumb class="breadcrumb-container" />
+    <img src="https://github.com/rumengkai/awesome-vue/assets/91320586/83f64d27-20a7-42e7-b6a4-30d828ff4365" class="user-avatar" @click="handlegotoDashboard">
+    <div class="search-wrapper">
+      <el-input type="text" v-model="search" placeholder="点此进入搜索" @click="handlegotoSearch"></el-input>
+    </div>
 
     <div class="right-menu">
-      <el-dropdown class="avatar-container" trigger="click">
-        <div class="avatar-wrapper">
-          <img src="https://user-images.githubusercontent.com/91320586/236814430-708d8c48-f9a0-49e2-94f6-b25f33a03af8.png" class="user-avatar">
-          <i class="el-icon-caret-bottom" />
-        </div>
-        <el-dropdown-menu slot="dropdown" class="user-dropdown">
-          <router-link to="/profile">
-            <el-dropdown-item>
-              Home
-            </el-dropdown-item>
-          </router-link>
-          <a target="_blank" href="https://github.com/PanJiaChen/vue-admin-template/">
-            <el-dropdown-item>Github</el-dropdown-item>
-          </a>
-          <a target="_blank" href="https://panjiachen.github.io/vue-element-admin-site/#/">
-            <el-dropdown-item>Docs</el-dropdown-item>
-          </a>
-          <el-dropdown-item divided @click.native="logout">
-            <span style="display:block;">Log Out</span>
-          </el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+
+      <div class="avatar-wrapper">
+        <img src="https://user-images.githubusercontent.com/91320586/236814430-708d8c48-f9a0-49e2-94f6-b25f33a03af8.png"
+          class="user-avatar">
+      </div>
+      <button class="nav-button" @click="handlegotoProjects">我的项目</button>
+      <button class="nav-button" @click.native="logout">登出</button>
+
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import Breadcrumb from '@/components/Breadcrumb'
-import Hamburger from '@/components/Hamburger'
 
 export default {
-  components: {
-    Breadcrumb,
-    Hamburger
+  data(){
+    return{
+      search:''
+    }
   },
+
   computed: {
     ...mapGetters([
       'sidebar',
@@ -48,6 +35,18 @@ export default {
     ])
   },
   methods: {
+    handlegotoDashboard() {
+      this.$router.push('/dashboard')
+    },
+
+    handlegotoSearch() {
+      this.$router.push('/search')
+    },
+
+    handlegotoProjects(){
+      this.$router.push('/project/index')
+    },
+
     toggleSideBar() {
       this.$store.dispatch('app/toggleSideBar')
     },
@@ -61,79 +60,37 @@ export default {
 
 <style lang="scss" scoped>
 .navbar {
-  height: 50px;
+  height: 80px;
   overflow: hidden;
   position: relative;
   background: #fff;
-  box-shadow: 0 1px 4px rgba(0,21,41,.08);
+  box-shadow: 0 1px 4px rgba(0, 21, 41, .08);
 
-  .hamburger-container {
-    line-height: 46px;
-    height: 100%;
-    float: left;
-    cursor: pointer;
-    transition: background .3s;
-    -webkit-tap-highlight-color:transparent;
-
-    &:hover {
-      background: rgba(0, 0, 0, .025)
-    }
-  }
-
-  .breadcrumb-container {
-    float: left;
+  .avatar-wrapper {
+    display: flex;
+    align-items: center;
   }
 
   .right-menu {
-    float: right;
-    height: 100%;
-    line-height: 50px;
+    display: flex;
+    align-items: center;
+  }
 
-    &:focus {
-      outline: none;
-    }
+  .nav-button {
+    margin-left: 10px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 14px;
+  }
 
-    .right-menu-item {
-      display: inline-block;
-      padding: 0 8px;
-      height: 100%;
-      font-size: 18px;
-      color: #5a5e66;
-      vertical-align: text-bottom;
-
-      &.hover-effect {
-        cursor: pointer;
-        transition: background .3s;
-
-        &:hover {
-          background: rgba(0, 0, 0, .025)
-        }
-      }
-    }
-
-    .avatar-container {
-      margin-right: 30px;
-
-      .avatar-wrapper {
-        margin-top: 5px;
-        position: relative;
-
-        .user-avatar {
-          cursor: pointer;
-          width: 40px;
-          height: 40px;
-          border-radius: 10px;
-        }
-
-        .el-icon-caret-bottom {
-          cursor: pointer;
-          position: absolute;
-          right: -20px;
-          top: 25px;
-          font-size: 12px;
-        }
-      }
-    }
+  .user-avatar {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
   }
 }
 </style>
+
