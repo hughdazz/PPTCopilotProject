@@ -37,12 +37,13 @@
   </div>
 </template>
 <script>
+import {getAllTemplates} from "@/api/template";
 export default {
   data() {
     return {
       topic: '',
       sponsor: '',
-      template_id: 0,
+      template_id: 1,
       currentPage: 1,
       pageSize: 4,
       cards: [
@@ -99,6 +100,11 @@ export default {
       const endIndex = startIndex + this.pageSize;
       return this.cards.slice(startIndex, endIndex);
     }
+  },
+  mounted() {
+    getAllTemplates().then(response => {
+      this.cards = response.data;
+    });
   },
   methods: {
     handleCurrentChange(val) {
