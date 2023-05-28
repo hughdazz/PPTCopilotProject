@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getAllTemplates() {
   return request({
-    url: '/templates',
+    url: '/template/info',
     method: 'get',
   })
 }
