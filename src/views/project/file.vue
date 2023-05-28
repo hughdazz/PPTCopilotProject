@@ -54,7 +54,6 @@ export default {
       id : this.$route.params.id,
       files: [],
       dialogFormVisible : false,
-      project_id : 0
     }
   },
   mounted() {
@@ -67,7 +66,7 @@ export default {
       this.$router.push({
         path: '/direction/index',
         query: {
-          project_id: this.project_id,
+          project_id: this.id,
           file_name: this.form.name,
         }
       });
