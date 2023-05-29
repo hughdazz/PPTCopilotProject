@@ -7,9 +7,9 @@
             <h2>项目文件</h2>
             <div v-if="this.name === this.username">
               <el-button type="primary" @click="dialogFormVisible = true" style = "margin-right: 10px">新建PPT文件</el-button>
-              <el-dialog title="输入标题" :visible.sync="dialogFormVisible">
+              <el-dialog title="新建演示幻灯片" :visible.sync="dialogFormVisible">
                 <el-form :model="form">
-                  <el-form-item label="Promotion name" :label-width="formLabelWidth">
+                  <el-form-item label="幻灯片标题" :label-width="formLabelWidth">
                     <el-input v-model="form.name" autocomplete="off"></el-input>
                   </el-form-item>
                 </el-form>
