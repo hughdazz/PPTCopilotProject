@@ -1,5 +1,5 @@
 <template>
-  <el-row class="file-row">
+  <el-row class="file-row" >
     <el-col :span="8">
       <div class="file-name">{{ name }}</div>
     </el-col>
@@ -7,6 +7,11 @@
       <div class="file-update-time">{{ updateTime }}</div>
     </el-col>
     <el-col :span="8">
+      <div class="file-description">
+        <div class = "center-right">
+          <el-button size = "mini" @click = "goto_pptist" style="margin-right: 10px">打开</el-button>
+        </div>
+
       <el-dropdown trigger="click" class="edit" @command="handleCommand">
         <span class="el-dropdown-link">
           ...
@@ -17,6 +22,7 @@
           <el-dropdown-item command="rename">重命名</el-dropdown-item>
         </el-dropdown-menu>
       </el-dropdown>
+      </div>
     </el-col>
   </el-row>
 </template>
@@ -54,6 +60,12 @@ export default {
     },
   },
   methods: {
+    goto_pptist(){
+      // 如果后缀是.json 跳转/pptist/index?project_id=1&file_name=sadsadas.json, 写代码！
+      // if(this.name.split('.')[1] == 'json'){
+      this.$router.push({path: '/pptist/index', query: {project_id: this.id, file_name: this.name}})
+      // }
+    },
     handleCommand(command) {
       switch (command) {
         case 'rename': {
@@ -99,5 +111,16 @@ export default {
 .el-dropdown-link {
   cursor: pointer;
   color: #333;
+}
+
+.file-description{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+
+}
+
+.center-right{
+  margin-left: auto;
 }
 </style>
