@@ -18,8 +18,8 @@ export function getInfo(token) {
 
 export function logout() {
   return request({
-    url: '/logout',
-    method: 'delete'
+    url: '/user/logout',
+    method: 'post'
   })
 }
 
