@@ -37,6 +37,8 @@ export default {
       const projectId = this.project_id === undefined ? 1 : this.project_id;
       const fileName = this.file_name === undefined ? 'test.json' : this.file_name;
       getStaticFile(projectId, fileName).then(res => {
+        console.log("this is pptits")
+        console.log(res)
         loadingInstance.close()
         // print length
         iframeWindow.postMessage(res, 'http://localhost:7777');
