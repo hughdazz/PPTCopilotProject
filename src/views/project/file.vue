@@ -148,7 +148,7 @@ export default {
         path: '/direction/index',
         query: {
           project_id: this.id,
-          file_name: this.form.name,
+          file_name: this.form.name+'.json',
         }
       });
     },
