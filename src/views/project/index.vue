@@ -36,6 +36,14 @@ export default {
     ])
   },
   methods: {
+    getImageUrl(id) {
+      return "http://localhost:8080/static/project/" + id + "/cover.png"
+    },
+
+    handleCommand(id) {
+      //进入文件
+      console.log('click')
+    },
     handleCreate() {
       this.$prompt('请输入新增项目的标题', '提示',
         {

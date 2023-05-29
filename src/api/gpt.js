@@ -7,3 +7,11 @@ export function genOutline(data) {
     data
   })
 }
+
+export function gen_ppt(data) {
+  return request({
+    url: '/gpt/gen_ppt',
+    method: 'post',
+    data
+  })
+}
