@@ -62,6 +62,7 @@ export function deleteFile(id, filename) {
 
 
 export function getStaticFile(projectId, fileName) {
+  console.log(fileName)
   return request({
     url: '/_static/project/' + projectId + '/' + fileName,
     method: 'get',

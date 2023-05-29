@@ -147,7 +147,7 @@ export default {
       this.$router.push({
         path: '/direction/index',
         query: {
-          project_id: this.project_id,
+          project_id: this.id,
           file_name: this.form.name,
         }
       });
