@@ -2,7 +2,7 @@ FROM node:16
 
 WORKDIR /home/app
 
-COPY . .
+COPY . . 
 
 RUN npm config set registry https://registry.npm.taobao.org && npm install
 

@@ -34,7 +34,7 @@ export default {
 
   methods: {
     getImageUrl(id) {
-      return "http://localhost:8080/_static/project/" + id + "/cover.png"
+      return "http://123.249.70.216:8080/_static/project/" + id + "/cover.png"
     },
 
     handleCommand(id) {

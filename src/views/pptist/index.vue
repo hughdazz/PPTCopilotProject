@@ -2,7 +2,7 @@
   <!--  显示外部界面-->
 
   <div id="app">
-    <iframe src="http://localhost:7777" id="pptist-frame" frameborder="0" @load="handleIframeLoad" width="100%"
+    <iframe src="http://123.249.70.216:7777" id="pptist-frame" frameborder="0" @load="handleIframeLoad" width="100%"
             height="100%"></iframe>
   </div>
 </template>
@@ -41,14 +41,14 @@ export default {
         console.log(res)
         loadingInstance.close()
         // print length
-        iframeWindow.postMessage(res, 'http://localhost:7777');
+        iframeWindow.postMessage(res, 'http://123.249.70.216:7777');
       }).catch(err => {
         loadingInstance.close()
         console.log(err)
       })
 
       window.addEventListener('message', function(event) {
-        if (event.origin !== 'http://localhost:7777') return
+        if (event.origin !== 'http://123.249.70.216:7777') return
         const blobStr = event.data;
         console.log(JSON.stringify(event))
         const blob = new Blob([blobStr], {type: '*'});
