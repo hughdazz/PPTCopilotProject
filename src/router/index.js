@@ -113,7 +113,8 @@ export const constantRoutes = [
         path: 'index',
         component: () => import('@/views/pptist/index'),
         name: 'Pptist',
-        meta: {title: 'PPT编辑', icon: 'el-icon-edit'}
+        meta: {title: 'PPT编辑', icon: 'el-icon-edit'},
+        props: (route) => ({ project_id: route.query.project_id, file_name: route.query.file_name })
       }
     ]
   },
