@@ -4,7 +4,11 @@ WORKDIR /home/app
 
 COPY . . 
 
-RUN npm config set registry https://registry.npm.taobao.org && npm install
+# 如果ARG MODE="dev"，则运行env.py dev否则运行env.py prod
+ARG MODE
+RUN python3 env.py $MODE
+
+RUN npm install --legacy-peer-deps
 
 EXPOSE 9529
 
