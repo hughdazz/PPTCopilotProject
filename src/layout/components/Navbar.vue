@@ -19,7 +19,7 @@
             登出
           </t-button>
 
-          <img src="http://localhost:8080/_static/user/1/avatar.png" class="user-avatar2" @click="handlegotoProfile" />
+          <img :src=img_url class="user-avatar2" @click="handlegotoProfile" />
         </t-space>
 
         <span style="margin-left: 10px">
@@ -39,7 +39,11 @@ import {
 export default {
   data() {
     return {
+      img_url: "",
     };
+  },
+  created() {
+    this.img_url = "http://localhost:8080/_static/user/" + this.id + "/avatar.png?time=" + new Date().getTime();
   },
   components: {
     SearchIcon,
@@ -47,7 +51,7 @@ export default {
     RemoveIcon,
   },
   computed: {
-    ...mapGetters(["sidebar", "avatar"]),
+    ...mapGetters(["sidebar", "avatar", "id"]),
   },
   methods: {
     handlegotoDashboard() {

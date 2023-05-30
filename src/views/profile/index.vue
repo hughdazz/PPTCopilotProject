@@ -13,13 +13,13 @@
               <el-tab-pane label="用户收藏" name="用户收藏">
                 <ProjectList :project-list="this.projectList" :edit = "false"></ProjectList>
               </el-tab-pane>
-              <el-tab-pane label="Activity" name="activity">
+              <!-- <el-tab-pane label="Activity" name="activity">
                 <activity />
               </el-tab-pane>
               <el-tab-pane label="Timeline" name="timeline">
                 <timeline />
-              </el-tab-pane>
-              <el-tab-pane label="Account" name="account">
+              </el-tab-pane> -->
+              <el-tab-pane label="账户设置" name="account">
                 <account :user="user" />
               </el-tab-pane>
             </el-tabs>

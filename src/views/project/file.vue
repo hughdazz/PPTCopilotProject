@@ -111,7 +111,7 @@
       </t-card>
       <t-card :title="user_panel_title" header-bordered :style="{ width: '500px' }">
         <h4>{{ this.username }}</h4>
-        <img src="http://localhost:8080/_static/user/1/avatar.png" width="100px" height="100px" />
+        <img :src=user_avatar width="100px" height="100px" />
       </t-card>
 
     </el-col>
@@ -172,6 +172,8 @@ export default {
       onEdit: false,
       newFileName: '',
       oldFileName: '',
+
+      user_avatar: '',
     }
   },
   mounted() {
@@ -255,6 +257,8 @@ export default {
         this.star = response.data.Star
         this.ProUpdated = response.data.Updated
         this.username = response.data.Creator.Username
+        this.user_id = response.data.Creator.Id
+        this.user_avatar = "http://localhost:8080/_static/user/" + this.user_id + "/avatar.png?time=" + new Date().getTime();
         this.description = response.data.Description
       })
     },

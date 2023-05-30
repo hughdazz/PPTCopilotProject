@@ -31,3 +31,10 @@ export function register(data) {
   })
 }
 
+export function upload(data) {
+  return request({
+    url: '/upload',
+    method: 'post',
+    data
+  })
+}
