@@ -9,7 +9,7 @@
     <el-col :span="8">
       <div class="file-description">
         <div class = "center-right">
-          <el-button size = "mini" @click = "goto_pptist" style="margin-right: 10px">打开</el-button>
+          <el-button size = "mini" v-show="showOpenBtn" @click = "goto_pptist" style="margin-right: 10px">打开</el-button>
         </div>
 
       <el-dropdown trigger="click" class="edit" @command="handleCommand">
@@ -59,12 +59,19 @@ export default {
       required: true
     },
   },
+  data() {
+    return {
+      showOpenBtn: false
+    }
+  },
+  mounted() {
+    if(this.name.split('.')[1] === 'json' || this.name.split('.')[1] === 'pptx' || this.name.split('.')[1] === 'pptist'){
+      this.showOpenBtn = true
+    }
+  },
   methods: {
     goto_pptist(){
-      // 如果后缀是.json 跳转/pptist/index?project_id=1&file_name=sadsadas.json, 写代码！
-      // if(this.name.split('.')[1] == 'json'){
       this.$router.push({path: '/pptist/index', query: {project_id: this.id, file_name: this.name}})
-      // }
     },
     handleCommand(command) {
       switch (command) {
