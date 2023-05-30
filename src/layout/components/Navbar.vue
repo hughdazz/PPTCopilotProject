@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     handlegotoDashboard() {
-      this.$router.push("/dashboard");
+      this.$router.push("/project/index");
     },
     handlegotoSearch() {
       this.$router.push("/index");
