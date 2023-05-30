@@ -55,7 +55,7 @@ export default {
   },
   methods: {
     handlegotoDashboard() {
-      this.$router.push("/project/index");
+      this.$router.push("/around/index");
     },
     handlegotoSearch() {
       this.$router.push("/index");

@@ -85,7 +85,7 @@ export default {
       });
     },
     jumpProject(){
-      this.$router.push('/project/index')
+      this.$router.push('/around/index')
     }
   },
   mounted() {

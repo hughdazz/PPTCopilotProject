@@ -6,13 +6,12 @@
           <span>项目列表</span>
           <t-button class="button_type pan-btn blue-btn" @click="handleCreate">新建项目</t-button>
           <t-dialog header="新建项目" body="对话框内容" :visible.sync="createVisible" @confirm="onCreateConfirm"
-            :confirmOnEnter="true" :onConfirm="onCreateConfirmAnother" :onCancel="onCreateCancel"
-            :onClose="createClose">
+            :confirmOnEnter="true" :onConfirm="onCreateConfirmAnother" :onCancel="onCreateCancel" :onClose="createClose">
             <t-input v-model="newProjectName" placeholder="请输入新的项目名称"></t-input>
           </t-dialog>
         </el-row>
         <el-row>
-          <ProjectList :project-list="this.projectList"  :edit = "this.edit" />
+          <ProjectList :project-list="this.projectList" :edit="this.edit" />
         </el-row>
       </div>
     </el-card>
@@ -21,11 +20,11 @@
 <script>
 
 import ProjectList from "@/views/project/components/ProjectList/index.vue"
-import {createProject, getProjectList} from "@/api/project"
-import {mapGetters} from "vuex";
+import { createProject, getProjectList } from "@/api/project"
+import { mapGetters } from "vuex";
 
 export default {
-  components: {ProjectList},
+  components: { ProjectList },
   data() {
     return {
       projectList: [],

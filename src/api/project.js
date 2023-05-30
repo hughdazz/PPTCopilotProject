@@ -14,6 +14,13 @@ export function getProjectList(id) {
   })
 }
 
+export function getAllProject() {
+  return request({
+    url: '/project',
+    method: 'get',
+  })
+}
+
 export function getFile(id) {
   return request({
     url: '/project/' + id + '/file',
