@@ -182,8 +182,8 @@ export default {
   methods: {
     createPPT()
     {
-      // window.location.href = 'http://localhost:9529/pptist/index?id='+this.catalog_id.toString()
-      // window.location.href = 'http://localhost:9529/pptist/index?pid=...&filename=xxx
+      // window.location.href = 'http://123.249.70.216:9529/pptist/index?id='+this.catalog_id.toString()
+      // window.location.href = 'http://123.249.70.216:9529/pptist/index?pid=...&filename=xxx
 
       const loadingInstance = Loading.service()
       gen_ppt({

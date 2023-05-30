@@ -17,7 +17,7 @@
         </el-button-group>
 
         <img
-          src="http://localhost:8080/_static/user/1/avatar.png"
+          src="http://123.249.70.216:8080/_static/user/1/avatar.png"
           class="user-avatar2"
           @click="handlegotoProfile"
         />
@@ -52,7 +52,7 @@ export default {
   },
   methods: {
     handlegotoDashboard() {
-      this.$router.push("/dashboard");
+      this.$router.push("/project/index");
     },
     handlegotoSearch() {
       this.$router.push("/index");
