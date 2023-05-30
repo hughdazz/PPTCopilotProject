@@ -6,7 +6,7 @@
       <p>Experience the future of PPT creation with AI assistance</p>
     </div>
     <div class="container">
-      <el-button type="primary" style="margin-top: 20px;margin-bottom: 20px" @click="jumpProject">立即使用</el-button>
+      <t-button type="primary" style="margin-top: 20px;margin-bottom: 20px" @click="jumpProject">立即使用</t-button>
     </div>
     <div class="dash-plate-content">
 

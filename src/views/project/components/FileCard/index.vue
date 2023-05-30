@@ -1,27 +1,32 @@
 <template>
-  <el-row class="file-row" >
+  <el-row class="file-row">
     <el-col :span="8">
       <div class="file-name">{{ name }}</div>
     </el-col>
     <el-col :span="8">
-      <div class="file-update-time">{{ updateTime }}</div>
+      <div class="file-update-time">{{ updateTime | formatDate }}</div>
     </el-col>
     <el-col :span="8">
       <div class="file-description">
-        <div class = "center-right">
-          <el-button size = "mini" v-show="showOpenBtn" @click = "goto_pptist" style="margin-right: 10px">打开</el-button>
+        <div class="center-right">
+          <el-button size="mini" v-show="showOpenBtn" @click="goto_pptist" style="margin-right: 10px">打开</el-button>
         </div>
 
-      <el-dropdown trigger="click" class="edit" @command="handleCommand">
-        <span class="el-dropdown-link">
-          ...
-        </span>
-        <el-dropdown-menu>
-          <el-dropdown-item command="delete">删除</el-dropdown-item>
-          <el-dropdown-item command="download">下载</el-dropdown-item>
-          <el-dropdown-item command="rename">重命名</el-dropdown-item>
-        </el-dropdown-menu>
-      </el-dropdown>
+        <el-dropdown trigger="click" class="edit" @command="handleCommand">
+          <span class="el-dropdown-link">
+            ...
+          </span>
+          <el-dropdown-menu>
+            <el-dropdown-item command="delete">删除</el-dropdown-item>
+            <el-dropdown-item command="download">下载</el-dropdown-item>
+            <el-dropdown-item command="rename">重命名</el-dropdown-item>
+          </el-dropdown-menu>
+        </el-dropdown>
+        <t-dropdown :options="options">
+          <t-button variant="outline">
+            更多
+          </t-button>
+        </t-dropdown>
       </div>
     </el-col>
   </el-row>
@@ -61,17 +66,52 @@ export default {
   },
   data() {
     return {
-      showOpenBtn: false
+      showOpenBtn: false,
+      options: [
+        {
+          content: '重命名',
+          value: 'rename',
+          onClick: () => {
+            this.renameFile(this.id, this.name)
+          }
+        },
+        {
+          content: '下载',
+          value: 'download',
+          onClick: () => {
+            this.downloadFile(this.id, this.name)
+          }
+        },
+        {
+          content: '删除',
+          value: 'delete',
+          onClick: () => {
+            this.deleteFile(this.id, this.name)
+          }
+        },
+      ]
+    }
+  },
+  filters: {
+    formatDate(time) {
+      const date = new Date(time)
+      const year = date.getFullYear()
+      const month = date.getMonth() + 1
+      const day = date.getDate()
+      const hour = date.getHours()
+      const minute = date.getMinutes()
+      const second = date.getSeconds()
+      return `${year}-${month}-${day} ${hour}:${minute}`
     }
   },
   mounted() {
-    if(this.name.split('.')[1] === 'json' || this.name.split('.')[1] === 'pptx' || this.name.split('.')[1] === 'pptist'){
+    if (this.name.split('.')[1] === 'json' || this.name.split('.')[1] === 'pptx' || this.name.split('.')[1] === 'pptist') {
       this.showOpenBtn = true
     }
   },
   methods: {
-    goto_pptist(){
-      this.$router.push({path: '/pptist/index', query: {project_id: this.id, file_name: this.name}})
+    goto_pptist() {
+      this.$router.push({ path: '/pptist/index', query: { project_id: this.id, file_name: this.name } })
     },
     handleCommand(command) {
       switch (command) {
@@ -110,7 +150,7 @@ export default {
   text-align: center;
 }
 
-.edit{
+.edit {
   display: flex;
   justify-content: flex-end;
 }
@@ -120,14 +160,14 @@ export default {
   color: #333;
 }
 
-.file-description{
+.file-description {
   display: flex;
   justify-content: flex-end;
   align-items: center;
 
 }
 
-.center-right{
+.center-right {
   margin-left: auto;
 }
 </style>

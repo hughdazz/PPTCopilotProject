@@ -15,6 +15,11 @@ import router from './router'
 import '@/icons' // icon
 import '@/permission' // permission control
 
+import TDesign from 'tdesign-vue';
+
+// 引入组件库的少量全局样式变量
+import 'tdesign-vue/es/style/index.css';
+
 /**
  * If you don't want to use mock-server
  * you want to use MockJs for mock api
@@ -27,6 +32,7 @@ if (process.env.NODE_ENV === 'production') {
   const { mockXHR } = require('../mock')
   mockXHR()
 }
+Vue.use(TDesign);
 
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })

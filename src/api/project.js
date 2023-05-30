@@ -21,6 +21,14 @@ export function getFile(id) {
   })
 }
 
+export function renameFile(id, data) {
+  return request({
+    url: '/project/' + id + '/file/update_name',
+    method: 'post',
+    data
+  })
+}
+
 export function createProject(data) {
   return request({
     url: '/project',
