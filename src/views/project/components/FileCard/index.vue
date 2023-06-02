@@ -9,19 +9,9 @@
     <el-col :span="8">
       <div class="file-description">
         <div class="center-right">
-          <el-button size="mini" v-show="showOpenBtn" @click="goto_pptist" style="margin-right: 10px">打开</el-button>
+          <t-button size="mini" v-show="showOpenBtn" @click="goto_pptist" style="margin-right: 10px">打开</t-button>
         </div>
 
-        <el-dropdown trigger="click" class="edit" @command="handleCommand">
-          <span class="el-dropdown-link">
-            ...
-          </span>
-          <el-dropdown-menu>
-            <el-dropdown-item command="delete">删除</el-dropdown-item>
-            <el-dropdown-item command="download">下载</el-dropdown-item>
-            <el-dropdown-item command="rename">重命名</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
         <t-dropdown :options="options">
           <t-button variant="outline">
             更多

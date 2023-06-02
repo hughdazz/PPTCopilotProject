@@ -8,7 +8,7 @@ COPY . .
 ARG MODE
 RUN python3 env.py $MODE
 
-RUN npm install --legacy-peer-deps
+RUN npm config set registry https://registry.npmmirror.com/ && npm install --legacy-peer-deps
 
 EXPOSE 9529
 

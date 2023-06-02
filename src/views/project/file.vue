@@ -1,6 +1,6 @@
 <template>
   <div class="project-container">
-    <el-col :span="15">
+    <el-col :span="14">
       <el-card class="box-card">
         <div class="project-info-container">
           <div class="project-header">
@@ -41,7 +41,7 @@
         </t-dialog>
       </el-card>
     </el-col>
-    <el-col :span="8">
+    <el-col :span="9">
       <t-card :title="project_panel_title" header-bordered :style="{ width: '500px' }">
         <!-- 判断是否是自己的项目，如果是自己的项目，让克隆项目按钮不可用 -->
         <el-row>
@@ -60,12 +60,12 @@
           <el-col :span="7">
             <div v-if="this.username != this.name">
               <t-button type="primary" disabled>
-                <arrow-down-rectangle-icon slot="icon" />
+                <edit-icon slot="icon" />
                 {{ edit_button }}</t-button>
             </div>
             <div v-else>
               <t-button type="primary" @click="handleEdit">
-                <arrow-down-rectangle-icon slot="icon" />
+                <edit-icon slot="icon" />
                 {{ edit_button }}</t-button>
             </div>
           </el-col>
@@ -138,6 +138,7 @@ import {
   CloudUploadIcon,
   ArrowDownRectangleIcon,
   ShareIcon,
+  EditIcon,
 } from 'tdesign-icons-vue';
 import { updateProject, renameFile } from '@/api/project';
 export default {
@@ -149,6 +150,7 @@ export default {
     AddIcon,
     ArrowDownRectangleIcon,
     ShareIcon,
+    EditIcon,
   },
   data() {
     return {

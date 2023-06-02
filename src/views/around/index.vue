@@ -25,11 +25,13 @@ export default {
     created() {
         getAllProject().then(response => {
             this.projectList = response.data;
+            // 随机排序
+            this.projectList.sort(() => Math.random() - 0.5);
         })
     },
     methods: {
         getImageUrl(id) {
-            return "http://localhost:8080/_static/project/" + id + "/cover.png"
+            return "http://localhost:8080/_static/project/" + id + "/cover.png?time=" + new Date().getTime();
         },
     }
 }
