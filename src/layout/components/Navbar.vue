@@ -43,7 +43,7 @@ export default {
     };
   },
   created() {
-    this.img_url = "http://localhost:8080/_static/user/" + this.id + "/avatar.png?time=" + new Date().getTime();
+    this.img_url = "http://{{server_ip}}:8080/_static/user/" + this.id + "/avatar.png?time=" + new Date().getTime();
   },
   components: {
     SearchIcon,

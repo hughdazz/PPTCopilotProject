@@ -8,15 +8,15 @@
     <el-form>
       <el-form-item>
         <div>昵称</div>
-        <el-input v-model.trim="user.name" />
+        <el-input v-model="nameInput" placeholder="输入新昵称" />
       </el-form-item>
       <el-form-item>
         <div>Email</div>
         <el-row>
           <el-col style="width: 92%;">
-            <el-input v-model.trim="user.email" />
+            <el-input v-model="EmailInput" placeholder="输入新邮箱" />
           </el-col>
-          <t-button type="primary" @click="validateEmail" style="margin-left: 1%; width: 7%;">验证</t-button>
+          <t-button type="primary" style="margin-left: 1%; width: 7%;" @click = "sendEmail">验证</t-button>
         </el-row>
       </el-form-item>
       <el-form-item>
@@ -33,43 +33,104 @@
 <script>
 import { mapGetters } from "vuex";
 import {
-  AddIcon,
-  HeartIcon,
-  HeartFilledIcon,
   CloudUploadIcon,
-  ArrowDownRectangleIcon,
-  ShareIcon,
 } from 'tdesign-icons-vue';
-import { upload } from '@/api/user'
+import { upload,checkEmail,sendEmail,resetEmail,resetName } from '@/api/user'
 export default {
-  props: {
-    user: {
-      type: Object,
-      default: () => {
-        return {
-          name: '',
-          email: ''
-        }
-      }
-    }
-  },
   components: {
     CloudUploadIcon,
   },
   data() {
     return {
-      code: ''
+      code: '',
+      nameInput: '',
+      EmailInput: '',
     }
   },
   computed: {
-    ...mapGetters(["id"]),
+    ...mapGetters([
+      'id',
+    ])
   },
+
   methods: {
     submit() {
-      this.$message({
-        message: 'User information has been updated successfully',
-        type: 'success',
-        duration: 5 * 1000
+      //若用户名和邮箱都为空，则不更新
+      if (this.nameInput === '' && this.EmailInput === '') {
+        this.$message({
+          message: '用户名和邮箱不能同时为空',
+          type: 'error',
+          duration: 5 * 1000
+        })
+        return
+      }
+      //若邮箱不为空，则需要验证码
+      if (this.EmailInput !== '') {
+        if (this.code === '') {
+          this.$message({
+            message: '请输入验证码',
+            type: 'error',
+            duration: 5 * 1000
+          })
+          return
+        }
+        else {
+          //验证验证码
+          checkEmail({
+            'email': this.EmailInput,
+            'code': this.code,
+          }).then(response => {
+            //验证码正确，修改邮箱
+            resetEmail(this.id, this.EmailInput).then(response => {
+              this.updateUserInfo("",this.EmailInput)
+              this.$message({
+                message: '邮箱修改成功',
+                type: 'success',
+                duration: 5 * 1000
+              })
+            })
+          })
+        }
+      }
+
+      //若用户名，直接修改即可
+      if (this.nameInput !== '') {
+        //检查用户名是不是大于4位
+        if (this.nameInput.length < 4) {
+          this.$message({
+            message: '用户名长度不能小于4位',
+            type: 'error',
+            duration: 5 * 1000
+          })
+          return
+        }
+        resetName(this.id, this.nameInput).then(response => {
+          this.updateUserInfo(this.nameInput,"")
+          this.$message({
+            message: '用户名修改成功',
+            type: 'success',
+            duration: 5 * 1000
+          })
+        })
+      }
+
+    },
+    sendEmail(){
+      //检查是不是邮箱
+      if(this.EmailInput.indexOf('@') === -1){
+        this.$message({
+          message: '请输入正确的邮箱',
+          type: 'error',
+          duration: 5 * 1000
+        })
+        return
+      }
+      sendEmail(this.EmailInput).then(response => {
+        this.$message({
+          message: '验证码已发送',
+          type: 'success',
+          duration: 5 * 1000
+        })
       })
     },
     handleCreate() {
@@ -93,6 +154,15 @@ export default {
       });
       fileInput.click();
     },
+    updateUserInfo(name,email){
+
+      if(name!== ''){
+        this.$store.dispatch('user/setName', name)
+      }
+      if(email!== '') {
+        this.$store.dispatch('user/setEmail', email)
+      }
+    }
   }
 }
 </script>

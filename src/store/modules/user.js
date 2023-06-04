@@ -98,8 +98,18 @@ const actions = {
       commit('RESET_STATE')
       resolve()
     })
+  },
+
+  setName({ commit }, name) {
+    console.log("name", name)
+    commit('SET_NAME', name)
+
+  },
+  setEmail({ commit }, email) {
+    commit('SET_EMAIL', email)
   }
 }
+
 
 export default {
   namespaced: true,

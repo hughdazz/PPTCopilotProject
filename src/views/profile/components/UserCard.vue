@@ -9,7 +9,7 @@
         <img :src=avatar_url width="100px" height="100px" class="user-avatar" />
       </div>
       <div class="box-center">
-        <div class="user-name text-center">{{ user.name }}</div>
+        <div class="user-name text-center">{{ name }}</div>
         <!--        <div class="user-role text-center text-muted">{{ user.role | uppercaseFirst }}</div>-->
       </div>
     </div>
@@ -24,27 +24,27 @@
         </div>
       </div>
 
-      <div class="user-skills user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="自我评价" /><span>自我评价</span></div>
-        <div class="user-bio-section-body">
-          <div class="progress-item">
-            <span>项目经验</span>
-            <el-progress :percentage="70" />
-          </div>
-          <div class="progress-item">
-            <span>项目美观度</span>
-            <el-progress :percentage="78" />
-          </div>
-          <div class="progress-item">
-            <span>项目整体性</span>
-            <el-progress :percentage="62" />
-          </div>
-          <div class="progress-item">
-            <span>项目动画流畅度</span>
-            <el-progress :percentage="100" status="success" />
-          </div>
-        </div>
-      </div>
+<!--      <div class="user-skills user-bio-section">-->
+<!--        <div class="user-bio-section-header"><svg-icon icon-class="自我评价" /><span>自我评价</span></div>-->
+<!--        <div class="user-bio-section-body">-->
+<!--          <div class="progress-item">-->
+<!--            <span>项目经验</span>-->
+<!--            <el-progress :percentage="70" />-->
+<!--          </div>-->
+<!--          <div class="progress-item">-->
+<!--            <span>项目美观度</span>-->
+<!--            <el-progress :percentage="78" />-->
+<!--          </div>-->
+<!--          <div class="progress-item">-->
+<!--            <span>项目整体性</span>-->
+<!--            <el-progress :percentage="62" />-->
+<!--          </div>-->
+<!--          <div class="progress-item">-->
+<!--            <span>项目动画流畅度</span>-->
+<!--            <el-progress :percentage="100" status="success" />-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
     </div>
   </el-card>
 </template>
@@ -67,10 +67,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["id"]),
+    ...mapGetters(["id","name"]),
   },
   created() {
-    this.avatar_url = "http://localhost:8080/_static/user/" + this.id + "/avatar.png?time=" + new Date().getTime();
+    this.avatar_url = "http://{{server_ip}}:8080/_static/user/" + this.id + "/avatar.png?time=" + new Date().getTime();
   },
 }
 </script>

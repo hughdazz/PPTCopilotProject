@@ -59,7 +59,7 @@ export default {
 
   methods: {
     getImageUrl(id) {
-      return "http://localhost:8080/_static/project/" + id + "/cover.png?t=" + new Date().getTime()
+      return "http://{{server_ip}}:8080/_static/project/" + id + "/cover.png?t=" + new Date().getTime()
     },
 
     handleCommand(id) {
@@ -73,10 +73,6 @@ export default {
     handleRename(id) {
       this.renameVisible = true;
       this.now_id = id;
-    },
-    handleUpload(id) {
-      this.now_id = id;
-      this.uploadVisible = true;
     },
     onRenameConfirm() {
       console.log('confirm')
@@ -149,7 +145,6 @@ export default {
       });
       fileInput.click();
       // 清除当前浏览器所有图片缓存
-
     },
   }
 }

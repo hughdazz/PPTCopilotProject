@@ -11,12 +11,20 @@
         <div class="center-right">
           <t-button size="mini" v-show="showOpenBtn" @click="goto_pptist" style="margin-right: 10px">打开</t-button>
         </div>
-
-        <t-dropdown :options="options">
-          <t-button variant="outline">
-            更多
-          </t-button>
-        </t-dropdown>
+        <div v-if="isOwner">
+          <t-dropdown :options="options">
+            <t-button variant="outline">
+              更多
+            </t-button>
+          </t-dropdown>
+        </div>
+        <div v-else>
+          <t-dropdown :options="guestoptions">
+            <t-button variant="outline">
+              更多
+            </t-button>
+          </t-dropdown>
+        </div>
       </div>
     </el-col>
   </el-row>
@@ -53,6 +61,10 @@ export default {
       type: Function,
       required: true
     },
+    isOwner: {
+      type: Boolean,
+      required: true
+    }
   },
   data() {
     return {
@@ -79,6 +91,16 @@ export default {
             this.deleteFile(this.id, this.name)
           }
         },
+      ],
+
+      guestoptions: [
+        {
+          content: '下载',
+          value: 'download',
+          onClick: () => {
+            this.downloadFile(this.id, this.name)
+          }
+        },
       ]
     }
   },
@@ -101,7 +123,7 @@ export default {
   },
   methods: {
     goto_pptist() {
-      this.$router.push({ path: '/pptist/index', query: { project_id: this.id, file_name: this.name } })
+      this.$router.push({path: '/pptist/index', query: {project_id: this.id, file_name: this.name}})
     },
     handleCommand(command) {
       switch (command) {

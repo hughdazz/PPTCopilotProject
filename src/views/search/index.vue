@@ -13,13 +13,6 @@
     <img v-if="!totalResults" src="https://github.com/images/modules/search/home-desktop-light2x.webp" alt="Search"
          class="search-image"/>
     <div v-if="totalResults">
-      <div class="sort-container">
-        <span class="sort-label">Sort by:</span>
-        <el-radio-group v-model="sortMethod" class="sort-radio-group">
-          <el-radio-button label="best-match">Best Match</el-radio-button>
-          <el-radio-button label="least-recent">Least Recently</el-radio-button>
-        </el-radio-group>
-      </div>
       <ProjectTable :projects="projects"/>
       <el-pagination
         :current-page="currentPage"
@@ -49,7 +42,7 @@ export default {
       totalProjects: [],
       projects: [],
       currentPage: 1,
-      pageSize: 2,
+      pageSize: 3,
       totalResults: 0,
     }
   },
