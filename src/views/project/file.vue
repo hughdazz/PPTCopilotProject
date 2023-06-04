@@ -33,7 +33,7 @@
 
         <div v-for="file in files" :key="file.Id" class="file-item">
           <FileRow :id="id" :name="file.Name" :description="file.Project.Description" :updateTime="file.Updated"
-            :deleteFile="deleteFile" :downloadFile="downloadFile" :renameFile="renameFile" :is_owner="this.is_owner" />
+            :deleteFile="deleteFile" :downloadFile="downloadFile" :renameFile="renameFile" :isOwner="checkOwner()" />
         </div>
         <t-dialog header="重命名" body="对话框内容" :visible.sync="renameVisible" @confirm="onRenameConfirm"
           :confirmOnEnter="true" :onConfirm="onRenameConfirmAnother" :onCancel="onRenameCancel" :onClose="renameClose">
@@ -46,7 +46,7 @@
         <!-- 判断是否是自己的项目，如果是自己的项目，让克隆项目按钮不可用 -->
         <el-row>
           <el-col :span="7">
-            <div v-if="is_owner">
+            <div v-if="checkOwner()">
               <t-button type="primary" disabled>
                 <arrow-down-rectangle-icon slot="icon" />
                 克隆项目</t-button>
@@ -175,7 +175,6 @@ export default {
       newFileName: '',
       oldFileName: '',
       user_avatar: '',
-      is_owner:this.name === this.username,
     }
   },
   mounted() {
@@ -226,6 +225,9 @@ export default {
         document.getElementById("project-info-edit").style.display = "block";
 
       }
+    },
+    checkOwner(){
+      return this.name === this.username;
     },
     handleShare() {
       // 复制当前页面的url

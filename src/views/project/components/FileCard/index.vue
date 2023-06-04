@@ -11,9 +11,8 @@
         <div class="center-right">
           <t-button size="mini" v-show="showOpenBtn" @click="goto_pptist" style="margin-right: 10px">打开</t-button>
         </div>
-        <div v-if="isowner">
+        <div v-if="isOwner">
           <t-dropdown :options="options">
-
             <t-button variant="outline">
               更多
             </t-button>
@@ -62,7 +61,7 @@ export default {
       type: Function,
       required: true
     },
-    isowner: {
+    isOwner: {
       type: Boolean,
       required: true
     }
