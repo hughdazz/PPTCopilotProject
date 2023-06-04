@@ -33,7 +33,7 @@
 
         <div v-for="file in files" :key="file.Id" class="file-item">
           <FileRow :id="id" :name="file.Name" :description="file.Project.Description" :updateTime="file.Updated"
-            :deleteFile="deleteFile" :downloadFile="downloadFile" :renameFile="renameFile" />
+            :deleteFile="deleteFile" :downloadFile="downloadFile" :renameFile="renameFile" :is_owner="this.is_owner" />
         </div>
         <t-dialog header="重命名" body="对话框内容" :visible.sync="renameVisible" @confirm="onRenameConfirm"
           :confirmOnEnter="true" :onConfirm="onRenameConfirmAnother" :onCancel="onRenameCancel" :onClose="renameClose">
@@ -46,7 +46,7 @@
         <!-- 判断是否是自己的项目，如果是自己的项目，让克隆项目按钮不可用 -->
         <el-row>
           <el-col :span="7">
-            <div v-if="this.username === this.name">
+            <div v-if="is_owner">
               <t-button type="primary" disabled>
                 <arrow-down-rectangle-icon slot="icon" />
                 克隆项目</t-button>
@@ -174,8 +174,8 @@ export default {
       onEdit: false,
       newFileName: '',
       oldFileName: '',
-
       user_avatar: '',
+      is_owner:this.name === this.username,
     }
   },
   mounted() {
@@ -308,6 +308,7 @@ export default {
           type: 'success',
           message: '收藏项目成功'
         })
+        this.liked = true
         this.checklikepro()
         this.getProjectInfo()
       })
@@ -340,6 +341,7 @@ export default {
           type: 'success',
           message: '取消收藏项目成功'
         })
+        this.liked = false
         this.checklikepro()
         this.getProjectInfo()
       })

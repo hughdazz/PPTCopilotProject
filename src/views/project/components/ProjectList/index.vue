@@ -74,10 +74,6 @@ export default {
       this.renameVisible = true;
       this.now_id = id;
     },
-    handleUpload(id) {
-      this.now_id = id;
-      this.uploadVisible = true;
-    },
     onRenameConfirm() {
       console.log('confirm')
     },
@@ -149,7 +145,6 @@ export default {
       });
       fileInput.click();
       // 清除当前浏览器所有图片缓存
-
     },
   }
 }

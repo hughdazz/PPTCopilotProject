@@ -11,31 +11,31 @@
         </div>
 
         <el-form-item prop="username">
-        <span class="svg-container">
-          <svg-icon icon-class="user"/>
-        </span>
+          <span class="svg-container">
+            <svg-icon icon-class="user"/>
+          </span>
           <el-input ref="username" v-model="registerForm.username" placeholder="Username"
                     name="username" type="text" tabindex="1" auto-complete="on"/>
         </el-form-item>
 
         <el-form-item prop="email">
-        <span class="svg-container">
-          <svg-icon icon-class="email"/>
-        </span>
+          <span class="svg-container">
+            <svg-icon icon-class="email"/>
+          </span>
           <el-input ref="email" v-model="registerForm.email" placeholder="Email"
                     name="email" type="text" tabindex="2" auto-complete="on"/>
         </el-form-item>
 
         <el-form-item prop="password">
-        <span class="svg-container">
-          <svg-icon icon-class="password"/>
-        </span>
+          <span class="svg-container">
+            <svg-icon icon-class="password"/>
+          </span>
           <el-input :key="passwordType" ref="password" v-model="registerForm.password" :type="passwordType"
                     placeholder="Password" name="password" tabindex="3" auto-complete="on"
                     @keyup.enter.native="handleRegister"/>
           <span class="show-pwd" @click="showPwd">
-          <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
-        </span>
+            <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
+          </span>
         </el-form-item>
 
         <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;"
@@ -50,8 +50,9 @@
     </el-form>
   </div>
 </template>
+
 <script>
-import {register} from "@/api/user"
+import { register } from "@/api/user";
 
 export default {
   name: 'Register',
@@ -59,26 +60,29 @@ export default {
   data() {
     const validateUsername = (rule, value, callback) => {
       if (value.length < 4) {
-        callback(new Error('The username can not be less than 4 digits'))
+        callback(new Error('用户名必须大于等于4个字符'));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
+
     const validateEmail = (rule, value, callback) => {
       const emailRegEx = /\S+@\S+\.\S+/;
       if (!emailRegEx.test(value)) {
-        callback(new Error('Please input a valid email address'))
+        callback(new Error('请输入正确的邮箱'));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
+
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error('密码必须大于等于6个字符'));
       } else {
-        callback()
+        callback();
       }
-    }
+    };
+
     return {
       registerForm: {
         username: '',
@@ -86,48 +90,62 @@ export default {
         password: ''
       },
       registerRules: {
-        username: [{required: true, trigger: 'blur', validator: validateUsername}],
-        email: [{required: true, trigger: 'blur', validator: validateEmail}],
-        password: [{required: true, trigger: 'blur', validator: validatePassword}]
+        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
+        email: [{ required: true, trigger: 'blur', validator: validateEmail }],
+        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
       },
       loading: false,
       passwordType: 'password',
-    }
+      formErrors: {} // Store form validation errors
+    };
   },
+
   methods: {
     showPwd() {
       if (this.passwordType === 'password') {
-        this.passwordType = ''
+        this.passwordType = '';
       } else {
-        this.passwordType = 'password'
+        this.passwordType = 'password';
       }
       this.$nextTick(() => {
-        this.$refs.password.focus()
-      })
+        this.$refs.password.focus();
+      });
     },
     handleRegister() {
-      this.loading = true
-      register(this.registerForm)
-        .then(() => {
-          this.$router.push({path: '/login'})
-          this.loading = false
-          this.$message({
-            type: 'success',
-            message: '注册成功,请登陆'
-          })
-        })
-        .catch(() => {
-          this.loading = false
-        })
+      this.$refs.registerForm.validate((valid) => {
+        if (valid) {
+          this.loading = true;
+          register(this.registerForm)
+            .then(() => {
+              this.$router.push({ path: '/login' });
+              this.loading = false;
+              this.$message({
+                type: 'success',
+                message: '注册成功，请登录'
+              });
+            })
+            .catch(() => {
+              this.loading = false;
+            });
+        } else {
+          this.$message.error('请正确填写表单');
+        }
+      });
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
 @import "@/assets/css/auth.scss";
 
 @include authInput();
+
+.el-form-item__error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
+}
 </style>
 
 <style lang="scss" scoped>
@@ -135,3 +153,6 @@ export default {
 
 @include authBackground();
 </style>
+
+
+

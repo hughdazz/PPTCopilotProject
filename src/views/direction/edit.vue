@@ -182,9 +182,6 @@ export default {
   methods: {
     createPPT()
     {
-      // window.location.href = 'http://localhost:9529/pptist/index?id='+this.catalog_id.toString()
-      // window.location.href = 'http://localhost:9529/pptist/index?pid=...&filename=xxx
-
       const loadingInstance = Loading.service()
       gen_ppt({
         'outline_id': parseInt(this.outline_id),

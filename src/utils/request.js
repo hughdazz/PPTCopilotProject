@@ -5,7 +5,6 @@ import { getToken } from '@/utils/auth'
 
 const service = axios.create({
   baseURL: 'http://localhost:8080',
-  // baseURL:'http://localhost:8080',
   // 跨域请求时是否需要使用凭证
   withCredentials: true,
   timeout: 500000
