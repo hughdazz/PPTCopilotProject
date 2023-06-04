@@ -51,7 +51,9 @@ export function sendEmail(data) {
   return request({
     url: '/email/send_email',
     method: 'post',
-    data
+    data:{
+      email:data
+    }
   })
 }
 
