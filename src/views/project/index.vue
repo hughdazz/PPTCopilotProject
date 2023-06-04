@@ -4,10 +4,14 @@
       <div slot="header" class="clearfix">
         <el-row>
           <span>项目列表</span>
-          <el-button class="button_type" @click="handleCreate">新建项目</el-button>
+          <t-button class="button_type pan-btn blue-btn" @click="handleCreate">新建项目</t-button>
+          <t-dialog header="新建项目" body="对话框内容" :visible.sync="createVisible" @confirm="onCreateConfirm"
+            :confirmOnEnter="true" :onConfirm="onCreateConfirmAnother" :onCancel="onCreateCancel" :onClose="createClose">
+            <t-input v-model="newProjectName" placeholder="请输入新的项目名称"></t-input>
+          </t-dialog>
         </el-row>
         <el-row>
-          <ProjectList :project-list="this.projectList"  :edit = "this.edit" />
+          <ProjectList :project-list="this.projectList" :edit="this.edit" />
         </el-row>
       </div>
     </el-card>
@@ -16,15 +20,17 @@
 <script>
 
 import ProjectList from "@/views/project/components/ProjectList/index.vue"
-import {createProject, getProjectList} from "@/api/project"
-import {mapGetters} from "vuex";
+import { createProject, getProjectList } from "@/api/project"
+import { mapGetters } from "vuex";
 
 export default {
-  components: {ProjectList},
+  components: { ProjectList },
   data() {
     return {
       projectList: [],
       edit: true,
+      createVisible: false,
+      newProjectName: '',
     }
   },
   mounted() {
@@ -37,7 +43,7 @@ export default {
   },
   methods: {
     getImageUrl(id) {
-      return "http://123.249.70.216:8080/_static/project/" + id + "/cover.png"
+      return "http://localhost:8080/_static/project/" + id + "/cover.png"
     },
 
     handleCommand(id) {
@@ -45,31 +51,34 @@ export default {
       console.log('click')
     },
     handleCreate() {
-      this.$prompt('请输入新增项目的标题', '提示',
-        {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消'
-        }
-      ).then(({value}) => {
-        createProject({
-          'name': value,
-          'description': '暂无简介'
-        }).then(response => {
-          console.log(response)
-          this.loadData();
-          this.$message({
-            type: 'success',
-            message: '项目' + value + '添加成功'
-          })
-        })
-
-      }).catch(() => {
+      this.createVisible = true;
+    },
+    onCreateConfirm() {
+      console.log('confirm')
+    },
+    onCreateConfirmAnother() {
+      console.log('confirm another')
+      createProject({
+        'name': this.newProjectName,
+        'description': '暂无简介'
+      }).then(response => {
+        console.log(response)
+        this.loadData();
         this.$message({
-          type: 'info',
-          message: '取消输入'
+          type: 'success',
+          message: '项目' + this.newProjectName + '添加成功'
         })
+      }).finally(() => {
+        this.createVisible = false;
       })
     },
+    onCreateCancel() {
+      console.log('cancel')
+    },
+    onCreateClose() {
+      console.log('close')
+    },
+
     loadData() {
       getProjectList(this.id).then(response => {
         console.log(response);

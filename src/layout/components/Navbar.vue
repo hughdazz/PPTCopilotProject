@@ -1,39 +1,29 @@
 <template>
   <div class="navbar">
-    <img
-      src="https://github.com/rumengkai/awesome-vue/assets/91320586/83f64d27-20a7-42e7-b6a4-30d828ff4365"
-      class="user-avatar1"
-      @click="handlegotoDashboard"
-    />
+    <img src="https://github.com/rumengkai/awesome-vue/assets/91320586/83f64d27-20a7-42e7-b6a4-30d828ff4365"
+      class="user-avatar1" @click="handlegotoDashboard" />
 
     <div class="right-menu">
       <div class="avatar-wrapper">
-        <el-button-group style="margin-right: 20px">
-          <el-button
-            icon="el-icon-search"
-            @click="handlegotoSearch"
-          ></el-button>
-          <el-button @click="handlegotoSearch">点此进入搜索页</el-button>
-        </el-button-group>
+        <t-space align="center" :separator="separator">
+          <t-button variant="outline" theme="primary" @click="handlegotoSearch" round>
+            <SearchIcon slot="icon" />
+            搜索
+          </t-button>
+          <t-button variant="outline" theme="primary" @click="handlegotoProjects" round>
+            <HomeIcon slot="icon" />
+            我的
+          </t-button>
+          <t-button variant="outline" theme="primary" @click.native="logout" round>
+            <RemoveIcon slot="icon" />
+            登出
+          </t-button>
 
-        <img
-          src="http://123.249.70.216:8080/_static/user/1/avatar.png"
-          class="user-avatar2"
-          @click="handlegotoProfile"
-        />
-        <el-button
-          type="primary"
-          class="nav-button"
-          @click="handlegotoProjects"
-          round>我的项目</el-button
-        >
-        <el-button
-          type="primary"
-          class="nav-button"
-          @click.native="logout"
-          round
-        >登出</el-button
-        >
+          <img :src=img_url class="user-avatar2" @click="handlegotoProfile" />
+        </t-space>
+
+        <span style="margin-left: 10px">
+        </span>
       </div>
     </div>
   </div>
@@ -41,18 +31,31 @@
 
 <script>
 import { mapGetters } from "vuex";
+import {
+  SearchIcon,
+  HomeIcon,
+  RemoveIcon,
+} from 'tdesign-icons-vue';
 export default {
   data() {
     return {
+      img_url: "",
     };
   },
-
+  created() {
+    this.img_url = "http://localhost:8080/_static/user/" + this.id + "/avatar.png?time=" + new Date().getTime();
+  },
+  components: {
+    SearchIcon,
+    HomeIcon,
+    RemoveIcon,
+  },
   computed: {
-    ...mapGetters(["sidebar", "avatar"]),
+    ...mapGetters(["sidebar", "avatar", "id"]),
   },
   methods: {
     handlegotoDashboard() {
-      this.$router.push("/project/index");
+      this.$router.push("/around/index");
     },
     handlegotoSearch() {
       this.$router.push("/index");
@@ -117,6 +120,7 @@ export default {
     height: 60px;
     margin-top: 5px;
   }
+
   .user-avatar2 {
     cursor: pointer;
     width: 40px;

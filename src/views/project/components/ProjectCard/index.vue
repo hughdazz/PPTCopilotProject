@@ -6,15 +6,13 @@
     <h3>{{ title }}</h3>
     <p>{{ Updated }}</p>
     <div class="project-actions">
-      <el-button type="primary" @click="openFile">打开</el-button>
+      <t-button type="primary" @click="openFile">打开</t-button>
       <div v-if="edit">
-        <el-dropdown @command="handleCommand">
-          <i class="el-icon-more"></i>
-          <el-dropdown-menu>
-            <el-dropdown-item command="rename">重命名</el-dropdown-item>
-            <el-dropdown-item command="delete">删除</el-dropdown-item>
-          </el-dropdown-menu>
-        </el-dropdown>
+        <t-dropdown :options="options">
+          <t-button variant="outline">
+            更多
+          </t-button>
+        </t-dropdown>
       </div>
     </div>
   </div>
@@ -23,6 +21,33 @@
 <script>
 export default {
   name: 'ProjectCard',
+  data() {
+    return {
+      options: [
+        {
+          content: '重命名',
+          value: 'rename',
+          onClick: () => {
+            this.handleRename(this.id)
+          }
+        },
+        {
+          content: '上传封面',
+          value: 'upload',
+          onClick: () => {
+            this.handleUpload(this.id)
+          }
+        },
+        {
+          content: '删除',
+          value: 'delete',
+          onClick: () => {
+            this.handleDelete(this.id)
+          }
+        },
+      ]
+    }
+  },
   props: {
     image: {
       type: String,
@@ -49,7 +74,11 @@ export default {
       type: Function,
       required: true
     },
-    edit:{
+    handleUpload: {
+      type: Function,
+      required: true
+    },
+    edit: {
       type: Boolean,
       default: true
     }
@@ -61,62 +90,9 @@ export default {
     },
     openFile() {
       console.log(1)
-      this.$router.push({path: '/project/' + this.id + '/file'})
+      this.$router.push({ path: '/project/' + this.id + '/file' })
     },
-    handleCommand(command) {
-      switch (command) {
-        case 'rename': {
-          this.handleRename(this.id)
-        }
-          break;
-        case 'delete': {
-          this.handleDelete(this.id)
-        }
-          break;
-        // case 'rename': {
-        //   this.$prompt('将项目更名为', '提示',
-        //     {
-        //       confirmButtonText: '确定',
-        //       cancelButtonText: '取消'
-        //     }
-        //   ).then(({value}) => {
-        //     this.title = value
-        //     this.Updated = new Date().toLocaleString()
-        //     this.$message({
-        //       type: 'success',
-        //       message: '修改成功'
-        //     })
-        //   }).catch(() => {
-        //     this.$message({
-        //       type: 'info',
-        //       message: '取消输入'
-        //     })
-        //   })
-        // }
-        //   break;
-        // case 'delete': {
-        //   this.$confirm('请确认是否删除', '提示',
-        //     {
-        //       confirmButtonText: '确定',
-        //       cancelButtonText: '取消',
-        //       type: "warning"
-        //     }
-        //   ).then(() => {
-        //     this.$emit("delete", this.id);
-        //     this.$message({
-        //       type: 'success',
-        //       message: '删除成功'
-        //     })
-        //   }).catch(() => {
-        //     this.$message({
-        //       type: 'info',
-        //       message: '取消操作'
-        //     })
-        //   })
-        // }
-      }
-
-    }
+    
   }
 }
 </script>
