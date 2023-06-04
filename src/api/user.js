@@ -38,3 +38,39 @@ export function upload(data) {
     data
   })
 }
+
+export function checkEmail(data) {
+  return request({
+    url: '/email/verify_email',
+    method: 'post',
+    data
+  })
+}
+
+export function sendEmail(data) {
+  return request({
+    url: '/email/send_email',
+    method: 'post',
+    data
+  })
+}
+
+export function resetEmail(id,email) {
+  return request({
+    url: '/user/'+id,
+    method: 'put',
+    data:{
+      email:email
+    }
+  })
+}
+
+export function resetName(id,name) {
+  return request({
+    url: '/user/'+id,
+    method: 'put',
+    data:{
+      username:name
+    }
+  })
+}
