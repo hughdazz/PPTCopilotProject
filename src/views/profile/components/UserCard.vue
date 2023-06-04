@@ -70,7 +70,7 @@ export default {
     ...mapGetters(["id"]),
   },
   created() {
-    this.avatar_url = "http://localhost:8080/_static/user/" + this.id + "/avatar.png?time=" + new Date().getTime();
+    this.avatar_url = "http://{{server_ip}}:8080/_static/user/" + this.id + "/avatar.png?time=" + new Date().getTime();
   },
 }
 </script>

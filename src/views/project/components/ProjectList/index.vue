@@ -59,7 +59,7 @@ export default {
 
   methods: {
     getImageUrl(id) {
-      return "http://localhost:8080/_static/project/" + id + "/cover.png?t=" + new Date().getTime()
+      return "http://{{server_ip}}:8080/_static/project/" + id + "/cover.png?t=" + new Date().getTime()
     },
 
     handleCommand(id) {
