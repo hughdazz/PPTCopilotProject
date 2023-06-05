@@ -76,3 +76,13 @@ export function resetName(id,name) {
     }
   })
 }
+
+export function resetDescription(id,description) {
+  return request({
+    url: '/user/'+id,
+    method: 'put',
+    data:{
+      description:description
+    }
+  })
+}

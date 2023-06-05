@@ -11,6 +11,10 @@
         <el-input v-model="nameInput" placeholder="输入新昵称" />
       </el-form-item>
       <el-form-item>
+        <div>个性签名</div>
+        <el-input v-model="descriptionInput" placeholder="输入新个性签名" />
+      </el-form-item>
+      <el-form-item>
         <div>Email</div>
         <el-row>
           <el-col style="width: 92%;">
@@ -35,7 +39,7 @@ import { mapGetters } from "vuex";
 import {
   CloudUploadIcon,
 } from 'tdesign-icons-vue';
-import { upload,checkEmail,sendEmail,resetEmail,resetName } from '@/api/user'
+import { upload,checkEmail,sendEmail,resetEmail,resetName,resetDescription } from '@/api/user'
 export default {
   components: {
     CloudUploadIcon,
@@ -45,6 +49,7 @@ export default {
       code: '',
       nameInput: '',
       EmailInput: '',
+      descriptionInput: '',
     }
   },
   computed: {
@@ -56,13 +61,23 @@ export default {
   methods: {
     submit() {
       //若用户名和邮箱都为空，则不更新
-      if (this.nameInput === '' && this.EmailInput === '') {
+      if (this.nameInput === '' && this.EmailInput === '' && this.descriptionInput === '') {
         this.$message({
-          message: '用户名和邮箱不能同时为空',
+          message: '无更新',
           type: 'error',
           duration: 5 * 1000
         })
         return
+      }
+      if(this.descriptionInput !== ''){
+        resetDescription(this.id,this.descriptionInput).then(response => {
+          this.updateUserInfo("", "", this.descriptionInput)
+          this.$message({
+            message: '个性签名修改成功',
+            type: 'success',
+            duration: 5 * 1000
+          })
+        })
       }
       //若邮箱不为空，则需要验证码
       if (this.EmailInput !== '') {
@@ -155,13 +170,16 @@ export default {
       });
       fileInput.click();
     },
-    updateUserInfo(name,email){
+    updateUserInfo(name,email,description){
 
       if(name!== ''){
         this.$store.dispatch('user/setName', name)
       }
       if(email!== '') {
         this.$store.dispatch('user/setEmail', email)
+      }
+      if(resetDescription!== '') {
+        this.$store.dispatch('user/setDesprition', description)
       }
     }
   }

@@ -9,6 +9,7 @@ const getDefaultState = () => {
     avatar: '',
     id: '',
     email: '',
+    description: ''
   }
 }
 
@@ -32,6 +33,9 @@ const mutations = {
   },
   SET_EMAIL: (state, email) => {
     state.email = email
+  },
+  SET_DES: (state, description) => {
+    state.description = description
   }
 
 }
@@ -48,6 +52,7 @@ const actions = {
         commit('SET_NAME', data.Username)
         commit('SET_ID', data.Id)
         commit('SET_EMAIL', data.Email)
+        commit('SET_DES', data.Description)
         setToken(token)
         resolve(data)
       }).catch(error => {
@@ -107,6 +112,9 @@ const actions = {
   },
   setEmail({ commit }, email) {
     commit('SET_EMAIL', email)
+  },
+  setDesprition({ commit }, description) {
+    commit('SET_DES', description)
   }
 }
 

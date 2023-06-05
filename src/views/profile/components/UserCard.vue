@@ -19,7 +19,7 @@
         <div class="user-bio-section-header"><svg-icon icon-class="个人签名" /><span>个人签名</span></div>
         <div class="user-bio-section-body">
           <div class="text-muted">
-            {{ user.description || '这个人很懒，什么都没有留下' }}
+            {{ this.description || "这个人很懒，什么也没留下"  }}
           </div>
         </div>
       </div>
@@ -67,7 +67,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(["id","name"]),
+    ...mapGetters(["id","name","description"]),
   },
   created() {
     this.avatar_url = "http://{{server_ip}}:8080/_static/user/" + this.id + "/avatar.png?time=" + new Date().getTime();
