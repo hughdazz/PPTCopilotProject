@@ -14,16 +14,34 @@
           <span class="svg-container">
             <svg-icon icon-class="user"/>
           </span>
-          <el-input ref="username" v-model="registerForm.username" placeholder="Username"
+          <el-input ref="username" v-model="registerForm.username" placeholder="用户名"
                     name="username" type="text" tabindex="1" auto-complete="on"/>
         </el-form-item>
 
-        <el-form-item prop="email">
+        <el-row>
+          <el-col :span="18">
+            <el-form-item prop="email">
           <span class="svg-container">
             <svg-icon icon-class="email"/>
           </span>
-          <el-input ref="email" v-model="registerForm.email" placeholder="Email"
-                    name="email" type="text" tabindex="2" auto-complete="on"/>
+              <el-input ref="email" v-model="registerForm.email" placeholder="Email"
+                        name="email" type="text" tabindex="2" auto-complete="on"/>
+            </el-form-item>
+          </el-col>
+
+          <el-col :span="6">
+            <el-button :loading="loading" type="primary" style="margin-left: 10px;width: calc(100% - 10px); height: 55px;"
+                       @click.native.prevent="sendEmail">验证
+            </el-button>
+          </el-col>
+        </el-row>
+
+        <el-form-item prop="ensurecode">
+          <span class="svg-container">
+            <svg-icon icon-class="email"/>
+          </span>
+          <el-input ref="ensurecode" v-model="registerForm.ensurecode" placeholder="验证码"
+                    name="ensurecode" type="text" tabindex="2" auto-complete="on"/>
         </el-form-item>
 
         <el-form-item prop="password">
@@ -31,7 +49,7 @@
             <svg-icon icon-class="password"/>
           </span>
           <el-input :key="passwordType" ref="password" v-model="registerForm.password" :type="passwordType"
-                    placeholder="Password" name="password" tabindex="3" auto-complete="on"
+                    placeholder="密码" name="password" tabindex="3" auto-complete="on"
                     @keyup.enter.native="handleRegister"/>
           <span class="show-pwd" @click="showPwd">
             <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"/>
@@ -52,7 +70,7 @@
 </template>
 
 <script>
-import { register } from "@/api/user";
+import {checkEmail, register, resetEmail, sendEmail} from "@/api/user";
 
 export default {
   name: 'Register',
@@ -75,6 +93,14 @@ export default {
       }
     };
 
+    const checkcode = (rule, value, callback) => {
+      if (value.length < 36) {
+        callback(new Error('验证码格式错误'));
+      } else {
+        callback();
+      }
+    };
+
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
         callback(new Error('密码必须大于等于6个字符'));
@@ -87,12 +113,14 @@ export default {
       registerForm: {
         username: '',
         email: '',
-        password: ''
+        password: '',
+        ensurecode: ''
       },
       registerRules: {
-        username: [{ required: true, trigger: 'blur', validator: validateUsername }],
-        email: [{ required: true, trigger: 'blur', validator: validateEmail }],
-        password: [{ required: true, trigger: 'blur', validator: validatePassword }]
+        username: [{required: true, trigger: 'blur', validator: validateUsername}],
+        email: [{required: true, trigger: 'blur', validator: validateEmail}],
+        password: [{required: true, trigger: 'blur', validator: validatePassword}],
+        ensurecode: [{required: true, trigger: 'blur', validator: checkcode}]
       },
       loading: false,
       passwordType: 'password',
@@ -115,9 +143,22 @@ export default {
       this.$refs.registerForm.validate((valid) => {
         if (valid) {
           this.loading = true;
+          //先检查验证码是不是正确
+          checkEmail({
+            'email': this.registerForm.email,
+            'code': this.registerForm.ensurecode,
+          })
+            .catch(error => {
+              this.$message({
+                message: '验证码错误',
+                type: 'error',
+                duration: 5 * 1000
+              })
+              return
+            })
           register(this.registerForm)
             .then(() => {
-              this.$router.push({ path: '/login' });
+              this.$router.push({path: '/login'});
               this.loading = false;
               this.$message({
                 type: 'success',
@@ -131,9 +172,28 @@ export default {
           this.$message.error('请正确填写表单');
         }
       });
-    }
+    },
+    sendEmail(){
+      //检查是不是邮箱
+      if(this.registerForm.email.indexOf('@') === -1){
+        this.$message({
+          message: '请输入正确的邮箱',
+          type: 'error',
+          duration: 5 * 1000
+        })
+        return
+      }
+      sendEmail(this.registerForm.email).then(response => {
+        this.$message({
+          message: '验证码已发送',
+          type: 'success',
+          duration: 5 * 1000
+        })
+      })
+    },
   }
 };
+
 </script>
 
 <style lang="scss">

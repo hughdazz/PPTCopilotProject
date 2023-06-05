@@ -150,6 +150,7 @@ export default {
             type: 'success',
             duration: 1 * 1000
           })
+          location.reload();
         })
       });
       fileInput.click();
