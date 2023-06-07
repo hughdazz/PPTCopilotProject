@@ -30,7 +30,8 @@
           </el-col>
 
           <el-col :span="6">
-            <el-button :loading="loading" type="primary" style="margin-left: 10px;width: calc(100% - 10px); height: 55px;"
+            <el-button :loading="loading" type="primary"
+                       style="margin-left: 10px;width: calc(100% - 10px); height: 55px;"
                        @click.native.prevent="sendEmail">验证
             </el-button>
           </el-col>
@@ -149,33 +150,30 @@ export default {
             'code': this.registerForm.ensurecode,
           })
             .catch(error => {
-              this.$message({
-                message: '验证码错误',
-                type: 'error',
-                duration: 5 * 1000
-              })
-              return
             })
-          register(this.registerForm)
             .then(() => {
-              this.$router.push({path: '/login'});
-              this.loading = false;
-              this.$message({
-                type: 'success',
-                message: '注册成功，请登录'
-              });
+              //注册
+              register(this.registerForm)
+                .then(() => {
+                  this.$router.push({path: '/login'});
+                  this.loading = false;
+                  this.$message({
+                    type: 'success',
+                    message: '注册成功，请登录'
+                  });
+                })
+                .catch(() => {
+                  this.loading = false;
+                });
             })
-            .catch(() => {
-              this.loading = false;
-            });
         } else {
           this.$message.error('请正确填写表单');
         }
       });
     },
-    sendEmail(){
+    sendEmail() {
       //检查是不是邮箱
-      if(this.registerForm.email.indexOf('@') === -1){
+      if (this.registerForm.email.indexOf('@') === -1) {
         this.$message({
           message: '请输入正确的邮箱',
           type: 'error',
