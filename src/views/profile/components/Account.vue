@@ -81,31 +81,7 @@ export default {
       }
       //若邮箱不为空，则需要验证码
       if (this.EmailInput !== '') {
-        if (this.code === '') {
-          this.$message({
-            message: '请输入验证码',
-            type: 'error',
-            duration: 5 * 1000
-          })
-          return
-        }
-        else {
-          //验证验证码
-          checkEmail({
-            'email': this.EmailInput,
-            'code': this.code,
-          }).then(response => {
-            //验证码正确，修改邮箱
-            resetEmail(this.id, this.EmailInput).then(response => {
-              this.updateUserInfo("",this.EmailInput)
-              this.$message({
-                message: '邮箱修改成功',
-                type: 'success',
-                duration: 5 * 1000
-              })
-            })
-          })
-        }
+        this.resetEmail()
       }
 
       //若用户名，直接修改即可
@@ -120,7 +96,7 @@ export default {
           return
         }
         resetName(this.id, this.nameInput).then(response => {
-          this.updateUserInfo(this.nameInput,"")
+          this.updateUserInfo(this.nameInput,"","")
           this.$message({
             message: '用户名修改成功',
             type: 'success',
@@ -154,7 +130,17 @@ export default {
 
       fileInput.addEventListener('change', () => {
         const file = fileInput.files[0];
-        // 在这里可以对文件进行处理，例如发送到服务器等
+
+        // 验证文件类型
+        if (file.type !== 'image/png') {
+          this.$message({
+            message: '只能上传 PNG 文件',
+            type: 'error',
+            duration: 1 * 1000
+          });
+          return;
+        }
+
         const formData = new FormData();
         formData.append('savedir', 'static/user/' + this.id);
         formData.append('uploadname', file, file.name);
@@ -164,22 +150,49 @@ export default {
             message: '上传成功',
             type: 'success',
             duration: 1 * 1000
-          })
+          });
           location.reload();
-        })
+        });
       });
+
       fileInput.click();
     },
     updateUserInfo(name,email,description){
-
       if(name!== ''){
         this.$store.dispatch('user/setName', name)
       }
       if(email!== '') {
         this.$store.dispatch('user/setEmail', email)
       }
-      if(resetDescription!== '') {
+      if(description!== '') {
         this.$store.dispatch('user/setDesprition', description)
+      }
+    },
+
+    resetEmail(){
+      if (this.code === '') {
+        this.$message({
+          message: '请输入验证码',
+          type: 'error',
+          duration: 5 * 1000
+        })
+      }
+      else {
+        //验证验证码
+        checkEmail({
+          'email': this.EmailInput,
+          'code': this.code,
+        }).then(response => {
+          //验证码正确，修改邮箱
+          resetEmail(this.id, this.EmailInput).then(response => {
+            this.updateUserInfo("",this.EmailInput,"")
+            this.$message({
+              message: '邮箱修改成功',
+              type: 'success',
+              duration: 5 * 1000
+            })
+          })
+        })
       }
     }
   }
